@@ -6,16 +6,17 @@ website: austinv11.github.io
  
 main: io.github.austinv11.LootPlus.LootPlus
 commands:
-   reload-config:
-      description: Saves and reloads the Endgame config
+   tweaks:
+      description: Displays the tweaks implemented by LootPlus on the server
       usage: /<command>
-      permission: Endgame.reload-config
+      permission: LootPlus.tweaks
       permission-message: You don't have permission
+      aliases: [tweak, change, changes]
 permissions:
-   Endgame.*:
+   LootPlus.*:
         description: Gives access to all Endgame commands
         children:
-            Endgame.reload-config: true
-   Endgame.reload-config:
-      description: Saves and reloads the Endgame config
-      default: op
+            LootPlus.tweaks: true
+   LootPlus.tweaks:
+      description: Displays the tweaks implemented by LootPlus on the server
+      default: true
