@@ -1,0 +1,21 @@
+name: LootPlus
+version: 1.0.0
+description: A plugin which enhances loot in various ways
+author: austinv11
+website: austinv11.github.io
+ 
+main: io.github.austinv11.LootPlus.LootPlus
+commands:
+   reload-config:
+      description: Saves and reloads the Endgame config
+      usage: /<command>
+      permission: Endgame.reload-config
+      permission-message: You don't have permission
+permissions:
+   Endgame.*:
+        description: Gives access to all Endgame commands
+        children:
+            Endgame.reload-config: true
+   Endgame.reload-config:
+      description: Saves and reloads the Endgame config
+      default: op
