@@ -26,6 +26,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 		if (override == false){
 			getLogger().info("Initiating config...");
 			config.addDefault("Options.onlyCustomDrops", "TODO");//FIXME
+			config.addDefault("Options.disableXPDrops", "TODO");//FIXME
 			config.addDefault("Options.allowCustomDrops", "TODO");//FIXME
 			config.addDefault("Options.allowCustomXP", "TODO");//FIXME
 			config.addDefault("Options.allowCustomDungeonLoot", "TODO");//FIXME
@@ -46,6 +47,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 		} else if (override == true){
 			getLogger().info("Reverting config to defaults...");
 			config.set("Options.onlyCustomDrops", "TODO");//FIXME
+			config.set("Options.disableXPDrops", "TODO");//FIXME
 			config.set("Options.allowCustomDrops", "TODO");//FIXME
 			config.set("Options.allowCustomXP", "TODO");//FIXME
 			config.set("Options.allowCustomDungeonLoot", "TODO");//FIXME
@@ -73,7 +75,36 @@ public class LootPlus extends JavaPlugin implements Listener{
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if (cmd.getName().equalsIgnoreCase("tweaks")) {
 			sender.sendMessage(ChatColor.YELLOW+"Current tweaks implemented by LootPlus:");
-			//TODO
+			if (config.getBoolean("Options.onlyCustomDrops") == true){
+				sender.sendMessage(ChatColor.RED+"-Only custom mob loot is dropped");
+			}else if (config.getBoolean("Options.disableXPDrops") == true){
+				sender.sendMessage(ChatColor.RED+"-No xp is dropped upon mob death");
+			}else if (config.getBoolean("Options.allowCustomDrops") == true){
+				sender.sendMessage(ChatColor.GREEN+"+Custom mob drops");
+			}else if (config.getBoolean("Options.allowCustomXP") == true){
+				sender.sendMessage(ChatColor.GREEN+"+Custom xp drops");
+			}else if (config.getBoolean("Options.allowCustomDungeonLoot") == true){
+				sender.sendMessage(ChatColor.GREEN+"+Custom dungeon loot");
+			}else if (config.getBoolean("Options.allowCustomSpawnRate") == true){
+				sender.sendMessage(ChatColor.GREEN+"+Custom mob spawning rates");
+			}else if (config.getBoolean("Features.headDrops") == true){
+				sender.sendMessage(ChatColor.GREEN+"+All mob heads have a chance at being dropped");
+			}else if (config.getBoolean("Features.playerHeadDrops") == true){
+				sender.sendMessage(ChatColor.GREEN+"+Players drop heads");
+			}else if (config.getBoolean("Features.extraHeadDrops") == true){
+				sender.sendMessage(ChatColor.GREEN+"+Mobs without implemented heads drop custom player heads");
+			}else if (config.getBoolean("Features.extraDungeonLoot") == true){
+				sender.sendMessage(ChatColor.GREEN+"+Special dungeon loot");
+			}else if (config.getBoolean("Features.extraMobDrops") == true){
+				sender.sendMessage(ChatColor.GREEN+"+Mobs have special drops");
+			}else if (config.getBoolean("Features.extraEnchantments") == true){
+				sender.sendMessage(ChatColor.GREEN+"+New enchantments are available");
+			}else if (config.getBoolean("Features.extraDungeons") == true){
+				sender.sendMessage(ChatColor.GREEN+"+New dungeons now spawn in worldgen");
+			}else if (config.getBoolean("Features.bossMobs") == true){
+				sender.sendMessage(ChatColor.GREEN+"+Random chance of a 'boss mob' to spawn (with cool loot!)");
+			}
+			return true;
 		}
 		return false;
 	}
