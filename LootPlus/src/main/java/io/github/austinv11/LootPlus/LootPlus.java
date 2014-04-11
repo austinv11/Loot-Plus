@@ -1,31 +1,26 @@
 package io.github.austinv11.LootPlus;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class LootPlus extends JavaPlugin implements Listener{
+public class LootPlus extends JavaPlugin{
 	public String CURRENT_VERSION = "1.0.0"; //TODO remember to update
 	FileConfiguration config = getConfig();
-	PluginManager pm = Bukkit.getServer().getPluginManager();
 	@Override
 	public void onEnable(){
 		configInit(false);
 		if (config.getBoolean("Options.setToDefault") == true){
 			configInit(true);
 		}
-		pm.registerEvents(this, this);
 		getLogger().info("Loot on this server is now enhanced by LootPlus V"+CURRENT_VERSION+"!");
 	}
 	public void configInit(boolean override){
 		if (override == false){
 			getLogger().info("Initiating config...");
-			config.addDefault("Options.onlyCustomDrops", "TODO");//FIXME
+			config.addDefault("Options.onlyCustomDrops", false);
 			config.addDefault("Options.disableXPDrops", "TODO");//FIXME
 			config.addDefault("Options.allowCustomDrops", "TODO");//FIXME
 			config.addDefault("Options.allowCustomXP", "TODO");//FIXME
@@ -46,7 +41,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 			getLogger().info("Initiated config!");
 		} else if (override == true){
 			getLogger().info("Reverting config to defaults...");
-			config.set("Options.onlyCustomDrops", "TODO");//FIXME
+			config.set("Options.onlyCustomDrops", false);
 			config.set("Options.disableXPDrops", "TODO");//FIXME
 			config.set("Options.allowCustomDrops", "TODO");//FIXME
 			config.set("Options.allowCustomXP", "TODO");//FIXME
@@ -72,7 +67,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 		getLogger().info("LootPlus no longer affects this server");
 	}
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){//TODO remember to update
 		if (cmd.getName().equalsIgnoreCase("tweaks")) {
 			sender.sendMessage(ChatColor.YELLOW+"Current tweaks implemented by LootPlus on this server:");
 			if (config.getBoolean("Options.onlyCustomDrops") == true){
