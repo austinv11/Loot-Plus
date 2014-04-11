@@ -154,13 +154,77 @@ public class LootPlus extends JavaPlugin implements Listener{
 		if (event.getEntityType() == EntityType.BAT){//FIXME mob head
 			
 		}else if (event.getEntityType() == EntityType.BLAZE){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Blaze Head");
+					meta.setOwner("MHF_Blaze");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.CAVE_SPIDER){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Cave Spider Head");
+					meta.setOwner("MHF_CaveSpider");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.CHICKEN){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Chicken Head");
+					meta.setOwner("MHF_Chicken");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.COW){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Cow Head");
+					meta.setOwner("MHF_Cow");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.CREEPER){
 			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 			if (config.getBoolean("Features.headDrops") == true && cause == DamageCause.ENTITY_ATTACK){
@@ -174,33 +238,188 @@ public class LootPlus extends JavaPlugin implements Listener{
 					item.setItemStack(loot);
 				}
 			}
-		}else if (event.getEntityType() == EntityType.ENDER_DRAGON){
+		}else if (event.getEntityType() == EntityType.ENDER_DRAGON){//FIXME add head
 			
 		}else if (event.getEntityType() == EntityType.ENDERMAN){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Enderman Head");
+					meta.setOwner("MHF_Enderman");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.GHAST){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Ghast Head");
+					meta.setOwner("MHF_Ghast");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.GIANT){
-			
-		}else if (event.getEntityType() == EntityType.HORSE){
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					byte type = 2;
+					ItemStack loot = new ItemStack(Material.SKULL_ITEM, 1, type);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
+		}else if (event.getEntityType() == EntityType.HORSE){//FIXME add head
 			
 		}else if (event.getEntityType() == EntityType.IRON_GOLEM){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Iron Golem Head");
+					meta.setOwner("MHF_Golem");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.MAGMA_CUBE){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Magma Cube Head");
+					meta.setOwner("MHF_LavaSlime");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.MUSHROOM_COW){
-			
-		}else if (event.getEntityType() == EntityType.OCELOT){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Mooshroom Head");
+					meta.setOwner("MHF_MushroomCow");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
+		}else if (event.getEntityType() == EntityType.OCELOT){//FIXME drops for pet cats
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Ocelot Head");
+					meta.setOwner("MHF_Ocelot");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.PIG){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Pig Head");
+					meta.setOwner("MHF_Pig");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.PIG_ZOMBIE){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Zombie Pigman Head");
+					meta.setOwner("MHF_PigZombie");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.PLAYER){
-			
+			//TODO
 		}else if (event.getEntityType() == EntityType.SHEEP){
-			
-		}else if (event.getEntityType() == EntityType.SILVERFISH){
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Sheep Head");
+					meta.setOwner("MHF_Sheep");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
+		}else if (event.getEntityType() == EntityType.SILVERFISH){//FIXME add head
 			
 		}else if (event.getEntityType() == EntityType.SKELETON){
 			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
@@ -216,20 +435,111 @@ public class LootPlus extends JavaPlugin implements Listener{
 				}
 			}
 		}else if (event.getEntityType() == EntityType.SLIME){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Slime Head");
+					meta.setOwner("MHF_Slime");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.SNOWMAN){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Snow Golem Head");
+					meta.setOwner("MHF_Pumpkin");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.SPIDER){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Spider Head");
+					meta.setOwner("MHF_Spider");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.SQUID){
-			
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Squid Head");
+					meta.setOwner("MHF_Squid");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.VILLAGER){
-			
-		}else if (event.getEntityType() == EntityType.WITCH){
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+					skull.setDurability((short) 3);
+					SkullMeta meta = (SkullMeta) skull.getItemMeta();
+					meta.setDisplayName("Villager Head");
+					meta.setOwner("MHF_Villager");
+					skull.setItemMeta(meta);
+					loc.getWorld().dropItemNaturally(loc, skull);
+					Item item = loc.getWorld().dropItemNaturally(loc, skull);
+					item.setItemStack(skull);
+				}
+			}
+		}else if (event.getEntityType() == EntityType.WITCH){//FIXME add head
 			
 		}else if (event.getEntityType() == EntityType.WITHER){
-			
-		}else if (event.getEntityType() == EntityType.WOLF){
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HEAD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					//byte type = 2; FIXME check
+					ItemStack loot = new ItemStack(Material.SKULL_ITEM, 1);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
+		}else if (event.getEntityType() == EntityType.WOLF){//FIXME add head
 			
 		}else if (event.getEntityType() == EntityType.ZOMBIE){
 			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
