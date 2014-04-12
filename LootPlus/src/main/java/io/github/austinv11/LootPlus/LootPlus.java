@@ -1,5 +1,7 @@
 package io.github.austinv11.LootPlus;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -19,6 +21,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,7 +30,18 @@ public class LootPlus extends JavaPlugin implements Listener{
 	public String CURRENT_VERSION = "1.0.0"; //TODO remember to update
 	FileConfiguration config = getConfig();
 	PluginManager pm = Bukkit.getServer().getPluginManager();
-	float HEAD_DROP_RATE = .025f; //2.5% for wither skeles
+	float HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
+	float CHICKEN_BEAK_RATE = 0.025f; //Same as head drop rate, currently
+	float DRAGON_EYE_RATE = 0.1f;
+	float CREEPER_POWDER_CLUMP_RATE = 0.35f;
+	float GHAST_FIREBALL_RATE = 0.5f;
+	float HORSE_GLUE_RATE = 0.5f;
+	float HORSE_MEAT_RATE = 0.25f;
+	float MUSHROOM_RATE = 0.5f;
+	float PET_ITEM_RATE = 0.45f;
+	float BONEMEAL_RATE = 0.66f;//also used for blaze powder
+	float EMERALD_DROP_RATE = 0.075f;//TODO balance
+	float ZOMBIE_FEATHER_RATE = 0.3f;
 	@Override
 	public void onEnable(){
 		configInit(false);
@@ -52,9 +66,10 @@ public class LootPlus extends JavaPlugin implements Listener{
 			config.addDefault("Features.playerHeadDrops", true);
 			config.addDefault("Features.extraHeadDrops", true);
 			config.addDefault("Features.extraDungeonLoot", "TODO");//FIXME
-			config.addDefault("Features.extraMobDrops", "TODO");//FIXME
+			config.addDefault("Features.extraMobDrops", true);
 			config.addDefault("Features.extraEnchantments", "TODO");//FIXME
 			config.addDefault("Features.extraDungeons", "TODO");//FIXME
+			config.addDefault("Features.easterEggs", true);
 			config.addDefault("Features.bossMobs", "TODO");//FIXME
 			config.options().copyDefaults(true);
 			saveConfig();
@@ -73,9 +88,10 @@ public class LootPlus extends JavaPlugin implements Listener{
 			config.set("Features.playerHeadDrops", true);
 			config.set("Features.extraHeadDrops", true);
 			config.set("Features.extraDungeonLoot", "TODO");//FIXME
-			config.set("Features.extraMobDrops", "TODO");//FIXME
+			config.set("Features.extraMobDrops", true);
 			config.set("Features.extraEnchantments", "TODO");//FIXME
 			config.set("Features.extraDungeons", "TODO");//FIXME
+			config.set("Features.easterEggs", true);
 			config.set("Features.bossMobs", "TODO");//FIXME
 			saveConfig();
 			getLogger().info("Reverted config!");
@@ -129,6 +145,9 @@ public class LootPlus extends JavaPlugin implements Listener{
 			if (config.getBoolean("Features.extraDungeons") == true){
 				sender.sendMessage(ChatColor.GREEN+"+New dungeons now spawn in worldgen");
 			}
+			if (config.getBoolean("Features.easterEggs") == true){
+				sender.sendMessage(ChatColor.GREEN+"+:)");//TODO better (funny) description
+			}
 			if (config.getBoolean("Features.bossMobs") == true){
 				sender.sendMessage(ChatColor.GREEN+"+Random chance of a 'boss mob' to spawn (with cool loot!)");
 			}
@@ -137,7 +156,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 		return false;
 	}
 	@EventHandler
-	public void onEntityDeath(EntityDeathEvent event){
+	public void onEntityDeath(EntityDeathEvent event){//FIXME mob head names
 		if (config.getBoolean("Options.onlyCustomDrops") == true){
 			Location items = event.getEntity().getLocation().clone();
 			for(Entity e : items.getChunk().getEntities()){
@@ -166,9 +185,21 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Blaze Head");
 					meta.setOwner("MHF_Blaze");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
+				}
+			}
+			if (config.getBoolean("Features.extraMobDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= BONEMEAL_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.BLAZE_POWDER);
+					ItemMeta meta = loot.getItemMeta();
+					meta.setDisplayName("Blaze Rod Shavings");
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
 				}
 			}
 		}else if (event.getEntityType() == EntityType.CAVE_SPIDER){
@@ -184,7 +215,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Cave Spider Head");
 					meta.setOwner("MHF_CaveSpider");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
@@ -202,9 +232,25 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Chicken Head");
 					meta.setOwner("MHF_Chicken");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
+				}
+			}
+			if (config.getBoolean("Features.easterEggs") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= CHICKEN_BEAK_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack beak = new ItemStack(Material.INK_SACK);
+					List<String> lores = new ArrayList<String>();
+					lores.add("This is disgusting...");
+					beak.setDurability((short) 11);
+					ItemMeta meta = beak.getItemMeta();
+					meta.setDisplayName("Chicken Beak");
+					meta.setLore(lores);
+					beak.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, beak);
+					item.setItemStack(beak);
 				}
 			}
 		}else if (event.getEntityType() == EntityType.COW){
@@ -220,7 +266,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Cow Head");
 					meta.setOwner("MHF_Cow");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
@@ -238,8 +283,39 @@ public class LootPlus extends JavaPlugin implements Listener{
 					item.setItemStack(loot);
 				}
 			}
+			if (config.getBoolean("Features.extraMobDrops") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= CREEPER_POWDER_CLUMP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.FIREWORK_CHARGE);
+					List<String> lores = new ArrayList<String>();
+					lores.add("Maybe this could be used for fireworks...");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setDisplayName("Clump Of Gunpowder");
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.ENDER_DRAGON){//FIXME add head
-			
+			if (config.getBoolean("Features.extraMobDrops") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= DRAGON_EYE_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.EYE_OF_ENDER);
+					List<String> lores = new ArrayList<String>();
+					lores.add("You could've sworn it was staring at you");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setDisplayName("Dragon Eye");
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.ENDERMAN){
 			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
@@ -253,7 +329,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Enderman Head");
 					meta.setOwner("MHF_Enderman");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
@@ -271,9 +346,24 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Ghast Head");
 					meta.setOwner("MHF_Ghast");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
+				}
+			}
+			if (config.getBoolean("Features.extraMobDrops") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= GHAST_FIREBALL_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.FIREBALL);
+					List<String> lores = new ArrayList<String>();
+					lores.add("It's warm to the touch");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setDisplayName("Ghast Fire Charge");
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
 				}
 			}
 		}else if (event.getEntityType() == EntityType.GIANT){
@@ -289,8 +379,64 @@ public class LootPlus extends JavaPlugin implements Listener{
 					item.setItemStack(loot);
 				}
 			}
+			if (config.getBoolean("Features.extraMobDrops") == true){//TODO add rare drops (like iron)
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= 0.67f){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.ROTTEN_FLESH, 3);//FIXME Change amount of drops
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
+			if (config.getBoolean("Features.easterEggs") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= ZOMBIE_FEATHER_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.FEATHER);//FIXME Change amount of drops
+					List<String> lores = new ArrayList<String>();
+					lores.add("Ahh, the nostalgia");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.HORSE){//FIXME add head
-			
+			if (config.getBoolean("Features.easterEggs") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HORSE_GLUE_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.SLIME_BALL);
+					List<String> lores = new ArrayList<String>();
+					lores.add("Is it wrong that I think this is funny?");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setDisplayName("Glue");
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
+			if (config.getBoolean("Features.easterEggs") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= HORSE_MEAT_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.RAW_BEEF);
+					List<String> lores = new ArrayList<String>();
+					lores.add("What is this?");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setDisplayName("Mystery Meat");
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.IRON_GOLEM){
 			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
@@ -304,7 +450,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Iron Golem Head");
 					meta.setOwner("MHF_Golem");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
@@ -322,7 +467,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Magma Cube Head");
 					meta.setOwner("MHF_LavaSlime");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
@@ -340,9 +484,28 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Mooshroom Head");
 					meta.setOwner("MHF_MushroomCow");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
+				}
+			}
+			if (config.getBoolean("Features.extraMobDrops") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= MUSHROOM_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.RED_MUSHROOM);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
+			if (config.getBoolean("Features.extraMobDrops") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= MUSHROOM_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.BROWN_MUSHROOM);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
 				}
 			}
 		}else if (event.getEntityType() == EntityType.OCELOT){//FIXME drops for pet cats
@@ -358,9 +521,23 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Ocelot Head");
 					meta.setOwner("MHF_Ocelot");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
+				}
+			}
+			if (config.getBoolean("Features.extraMobDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= PET_ITEM_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.RAW_FISH);
+					List<String> lores = new ArrayList<String>();
+					lores.add("You monster! You killed a helpless cat!");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
 				}
 			}
 		}else if (event.getEntityType() == EntityType.PIG){
@@ -376,7 +553,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Pig Head");
 					meta.setOwner("MHF_Pig");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
@@ -394,14 +570,13 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Zombie Pigman Head");
 					meta.setOwner("MHF_PigZombie");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
 			}
 		}else if (event.getEntityType() == EntityType.PLAYER){
 			//TODO
-		}else if (event.getEntityType() == EntityType.SHEEP){
+		}else if (event.getEntityType() == EntityType.SHEEP){//TODO add food drop
 			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
 				Random r = new Random();
@@ -414,7 +589,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Sheep Head");
 					meta.setOwner("MHF_Sheep");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
@@ -434,6 +608,20 @@ public class LootPlus extends JavaPlugin implements Listener{
 					item.setItemStack(loot);
 				}
 			}
+			if (config.getBoolean("Features.extraMobDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= BONEMEAL_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.INK_SACK);
+					loot.setDurability((short) 15);
+					ItemMeta meta = loot.getItemMeta();
+					meta.setDisplayName("Bone Shavings");
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.SLIME){
 			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
@@ -447,12 +635,11 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Slime Head");
 					meta.setOwner("MHF_Slime");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
 			}
-		}else if (event.getEntityType() == EntityType.SNOWMAN){
+		}else if (event.getEntityType() == EntityType.SNOWMAN){//FIXME change head
 			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 			if (config.getBoolean("Features.extraHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
 				Random r = new Random();
@@ -465,9 +652,23 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Snow Golem Head");
 					meta.setOwner("MHF_Pumpkin");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
+				}
+			}
+			if (config.getBoolean("Features.extraMobDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= 1f){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.PUMPKIN);
+					List<String> lores = new ArrayList<String>();
+					lores.add("How dare you decapitate the Magic Snowman!");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
 				}
 			}
 		}else if (event.getEntityType() == EntityType.SPIDER){
@@ -483,7 +684,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Spider Head");
 					meta.setOwner("MHF_Spider");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
@@ -501,7 +701,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Squid Head");
 					meta.setOwner("MHF_Squid");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
 				}
@@ -519,9 +718,38 @@ public class LootPlus extends JavaPlugin implements Listener{
 					meta.setDisplayName("Villager Head");
 					meta.setOwner("MHF_Villager");
 					skull.setItemMeta(meta);
-					loc.getWorld().dropItemNaturally(loc, skull);
 					Item item = loc.getWorld().dropItemNaturally(loc, skull);
 					item.setItemStack(skull);
+				}
+			}
+			if (config.getBoolean("Features.extraMobDrops") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= EMERALD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.EMERALD);
+					List<String> lores = new ArrayList<String>();
+					lores.add("I guess this is blood money");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
+			if (config.getBoolean("Features.easterEggs") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= EMERALD_DROP_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.INK_SACK);
+					List<String> lores = new ArrayList<String>();
+					lores.add("Squidward?");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
 				}
 			}
 		}else if (event.getEntityType() == EntityType.WITCH){//FIXME add head
@@ -533,14 +761,28 @@ public class LootPlus extends JavaPlugin implements Listener{
 				float chance = r.nextFloat();
 				if (chance <= HEAD_DROP_RATE){
 					Location loc = event.getEntity().getLocation().clone();
-					//byte type = 2; FIXME check
-					ItemStack loot = new ItemStack(Material.SKULL_ITEM, 1);
+					byte type = 1;
+					ItemStack loot = new ItemStack(Material.SKULL_ITEM, 1, type);
 					Item item = loc.getWorld().dropItemNaturally(loc, loot);
 					item.setItemStack(loot);
 				}
 			}
 		}else if (event.getEntityType() == EntityType.WOLF){//FIXME add head
-			
+			if (config.getBoolean("Features.extraMobDrops") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= PET_ITEM_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.BONE);
+					List<String> lores = new ArrayList<String>();
+					lores.add("Come on, give a dog a bone");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
 		}else if (event.getEntityType() == EntityType.ZOMBIE){
 			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 			if (config.getBoolean("Features.headDrops") == true && cause == DamageCause.ENTITY_ATTACK){
@@ -550,6 +792,21 @@ public class LootPlus extends JavaPlugin implements Listener{
 					Location loc = event.getEntity().getLocation().clone();
 					byte type = 2;
 					ItemStack loot = new ItemStack(Material.SKULL_ITEM, 1, type);
+					Item item = loc.getWorld().dropItemNaturally(loc, loot);
+					item.setItemStack(loot);
+				}
+			}
+			if (config.getBoolean("Features.easterEggs") == true){
+				Random r = new Random();
+				float chance = r.nextFloat();
+				if (chance <= ZOMBIE_FEATHER_RATE){
+					Location loc = event.getEntity().getLocation().clone();
+					ItemStack loot = new ItemStack(Material.FEATHER);//FIXME Change amount of drops
+					List<String> lores = new ArrayList<String>();
+					lores.add("Ahh, the nostalgia");
+					ItemMeta meta = loot.getItemMeta();
+					meta.setLore(lores);
+					loot.setItemMeta(meta);
 					Item item = loc.getWorld().dropItemNaturally(loc, loot);
 					item.setItemStack(loot);
 				}
@@ -573,7 +830,6 @@ public class LootPlus extends JavaPlugin implements Listener{
 				meta.setDisplayName(player.getName()+"'s Head");
 				meta.setOwner(player.getName());
 				skull.setItemMeta(meta);
-				loc.getWorld().dropItemNaturally(loc, skull);
 				Item item = loc.getWorld().dropItemNaturally(loc, skull);
 				item.setItemStack(skull);
 			}
