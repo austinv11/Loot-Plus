@@ -40,7 +40,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 	float MUSHROOM_RATE = 0.5f;
 	float PET_ITEM_RATE = 0.45f;
 	float BONEMEAL_RATE = 0.66f;//also used for blaze powder
-	float EMERALD_DROP_RATE = 0.075f;//TODO balance
+	float EMERALD_DROP_RATE = 0.025f;//TODO balance
 	float ZOMBIE_FEATHER_RATE = 0.3f;
 	@Override
 	public void onEnable(){
@@ -56,21 +56,21 @@ public class LootPlus extends JavaPlugin implements Listener{
 			getLogger().info("Initiating config...");
 			config.addDefault("Options.onlyCustomDrops", false);
 			config.addDefault("Options.disableXPDrops", false);
-			config.addDefault("Options.allowCustomDrops", "TODO");//FIXME
-			config.addDefault("Options.allowCustomXP", "TODO");//FIXME
-			config.addDefault("Options.allowCustomDungeonLoot", "TODO");//FIXME
-			config.addDefault("Options.allowCustomSpawnRate", "TODO");//FIXME
-			config.addDefault("Options.updateNotifications", "TODO");//FIXME
+			//config.addDefault("Options.allowCustomDrops", "TODO");//FIXME
+			//config.addDefault("Options.allowCustomXP", "TODO");//FIXME
+			//config.addDefault("Options.allowCustomDungeonLoot", "TODO");//FIXME
+			//config.addDefault("Options.allowCustomSpawnRate", "TODO");//FIXME
+			//config.addDefault("Options.updateNotifications", "TODO");//FIXME
 			config.addDefault("Options.setToDefault", false);
 			config.addDefault("Features.headDrops", true);
 			config.addDefault("Features.playerHeadDrops", true);
 			config.addDefault("Features.extraHeadDrops", true);
-			config.addDefault("Features.extraDungeonLoot", "TODO");//FIXME
+			//config.addDefault("Features.extraDungeonLoot", "TODO");//FIXME
 			config.addDefault("Features.extraMobDrops", true);
-			config.addDefault("Features.extraEnchantments", "TODO");//FIXME
-			config.addDefault("Features.extraDungeons", "TODO");//FIXME
+			//config.addDefault("Features.extraEnchantments", "TODO");//FIXME
+			//config.addDefault("Features.extraDungeons", "TODO");//FIXME
 			config.addDefault("Features.easterEggs", true);
-			config.addDefault("Features.bossMobs", "TODO");//FIXME
+			//config.addDefault("Features.bossMobs", "TODO");//FIXME
 			config.options().copyDefaults(true);
 			saveConfig();
 			getLogger().info("Initiated config!");
@@ -78,21 +78,21 @@ public class LootPlus extends JavaPlugin implements Listener{
 			getLogger().info("Reverting config to defaults...");
 			config.set("Options.onlyCustomDrops", true);
 			config.set("Options.disableXPDrops", false);
-			config.set("Options.allowCustomDrops", "TODO");//FIXME
-			config.set("Options.allowCustomXP", "TODO");//FIXME
-			config.set("Options.allowCustomDungeonLoot", "TODO");//FIXME
-			config.set("Options.allowCustomSpawnRate", "TODO");//FIXME
-			config.set("Options.updateNotifications", "TODO");//FIXME
+		//	config.set("Options.allowCustomDrops", "TODO");//FIXME
+			//config.set("Options.allowCustomXP", "TODO");//FIXME
+			//config.set("Options.allowCustomDungeonLoot", "TODO");//FIXME
+			//config.set("Options.allowCustomSpawnRate", "TODO");//FIXME
+			//config.set("Options.updateNotifications", "TODO");//FIXME
 			config.set("Options.setToDefault", false);
 			config.set("Features.headDrops", true);
 			config.set("Features.playerHeadDrops", true);
 			config.set("Features.extraHeadDrops", true);
-			config.set("Features.extraDungeonLoot", "TODO");//FIXME
+			//config.set("Features.extraDungeonLoot", "TODO");//FIXME
 			config.set("Features.extraMobDrops", true);
-			config.set("Features.extraEnchantments", "TODO");//FIXME
-			config.set("Features.extraDungeons", "TODO");//FIXME
+			//config.set("Features.extraEnchantments", "TODO");//FIXME
+			//config.set("Features.extraDungeons", "TODO");//FIXME
 			config.set("Features.easterEggs", true);
-			config.set("Features.bossMobs", "TODO");//FIXME
+			//config.set("Features.bossMobs", "TODO");//FIXME
 			saveConfig();
 			getLogger().info("Reverted config!");
 		}
@@ -146,7 +146,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 				sender.sendMessage(ChatColor.GREEN+"+New dungeons now spawn in worldgen");
 			}
 			if (config.getBoolean("Features.easterEggs") == true){
-				sender.sendMessage(ChatColor.GREEN+"+:)");//TODO better (funny) description
+				sender.sendMessage(ChatColor.GREEN+"+Some very special things :)");//TODO better (funny) description
 			}
 			if (config.getBoolean("Features.bossMobs") == true){
 				sender.sendMessage(ChatColor.GREEN+"+Random chance of a 'boss mob' to spawn (with cool loot!)");
@@ -359,7 +359,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 					List<String> lores = new ArrayList<String>();
 					lores.add("It's warm to the touch");
 					ItemMeta meta = loot.getItemMeta();
-					meta.setDisplayName("Ghast Fire Charge");
+					meta.setDisplayName("Ghast Fireball");
 					meta.setLore(lores);
 					loot.setItemMeta(meta);
 					Item item = loc.getWorld().dropItemNaturally(loc, loot);
@@ -525,7 +525,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 					item.setItemStack(skull);
 				}
 			}
-			if (config.getBoolean("Features.extraMobDrops") == true && cause == DamageCause.ENTITY_ATTACK){
+			if (config.getBoolean("Features.easterEggs") == true && cause == DamageCause.ENTITY_ATTACK){
 				Random r = new Random();
 				float chance = r.nextFloat();
 				if (chance <= PET_ITEM_RATE){
@@ -722,7 +722,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 					item.setItemStack(skull);
 				}
 			}
-			if (config.getBoolean("Features.extraMobDrops") == true){
+			if (config.getBoolean("Features.extraMobDrops") == true && cause == DamageCause.ENTITY_ATTACK){
 				Random r = new Random();
 				float chance = r.nextFloat();
 				if (chance <= EMERALD_DROP_RATE){
@@ -737,7 +737,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 					item.setItemStack(loot);
 				}
 			}
-			if (config.getBoolean("Features.easterEggs") == true){
+			if (config.getBoolean("Features.easterEggs") == true && cause == DamageCause.ENTITY_ATTACK){
 				Random r = new Random();
 				float chance = r.nextFloat();
 				if (chance <= EMERALD_DROP_RATE){
@@ -768,7 +768,8 @@ public class LootPlus extends JavaPlugin implements Listener{
 				}
 			}
 		}else if (event.getEntityType() == EntityType.WOLF){//FIXME add head
-			if (config.getBoolean("Features.extraMobDrops") == true){
+			DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+			if (config.getBoolean("Features.easterEggs") == true && cause == DamageCause.ENTITY_ATTACK){
 				Random r = new Random();
 				float chance = r.nextFloat();
 				if (chance <= PET_ITEM_RATE){
