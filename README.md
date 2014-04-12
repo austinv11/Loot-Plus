@@ -1,6 +1,8 @@
 Loot-Plus
 =========
 
+![LootPlus Icon](http://dev.bukkit.org/media/images/72/465/LootPlus__2_.png)
+
 Enhances and allows for customization of dungeon loot and mob drops
 
 Current Features
