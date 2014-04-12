@@ -27,7 +27,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class LootPlus extends JavaPlugin implements Listener{
-	public String CURRENT_VERSION = "1.0.0"; //TODO remember to update
+	public String CURRENT_VERSION = "1.0.1"; //TODO remember to update
 	FileConfiguration config = getConfig();
 	PluginManager pm = Bukkit.getServer().getPluginManager();
 	float HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
