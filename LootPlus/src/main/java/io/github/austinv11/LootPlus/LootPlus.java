@@ -65,7 +65,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 			config.addDefault("Features.headDrops", true);
 			config.addDefault("Features.playerHeadDrops", true);
 			config.addDefault("Features.extraHeadDrops", true);
-			//config.addDefault("Features.extraDungeonLoot", "TODO");//FIXME
+			config.addDefault("Features.extraDungeonLoot", true);
 			config.addDefault("Features.extraMobDrops", true);
 			//config.addDefault("Features.extraEnchantments", "TODO");//FIXME
 			//config.addDefault("Features.extraDungeons", "TODO");//FIXME
@@ -87,7 +87,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 			config.set("Features.headDrops", true);
 			config.set("Features.playerHeadDrops", true);
 			config.set("Features.extraHeadDrops", true);
-			//config.set("Features.extraDungeonLoot", "TODO");//FIXME
+			config.set("Features.extraDungeonLoot", true);
 			config.set("Features.extraMobDrops", true);
 			//config.set("Features.extraEnchantments", "TODO");//FIXME
 			//config.set("Features.extraDungeons", "TODO");//FIXME
