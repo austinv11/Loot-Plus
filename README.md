@@ -6,24 +6,22 @@ Enhances and allows for customization of dungeon loot and mob drops
 Current Features
 ----------------
 
-*None :(
+*Normal Mob head as mob drops (ie Skeletons, zombies, etc)
+
+*Players Drop heads
+
+*Additional Mobs drop heads (player heads for additional mobs, ie slime, etc)
+
+*Additional mob drops
 
 Planned Features
 ----------------
-
-+Normal Mob head as mob drops (ie Skeletons, zombies, etc)
-
-+Players Drop heads
-
-+Additional Mobs drop heads (player heads for additional mobs, ie Witch, slime, etc)
 
 +Custom mob drops (+probability)
 
 +Custom mob xp drops
 
 +Custom dungeon loot (+probability)
-
-+Additional mob drops (for default)
 
 +Additional dungeon loot (for default)
 
