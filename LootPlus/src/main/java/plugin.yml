@@ -12,11 +12,21 @@ commands:
       permission: LootPlus.tweaks
       permission-message: You don't have permission
       aliases: [tweak, change, changes]
+   lpupdate:
+      description: Forcefully updates the LootPlus plugin
+      usage: /<command>
+      permission: LootPlus.lpupdate
+      permission-message: You don't have permission
+
 permissions:
    LootPlus.*:
         description: Gives access to all Endgame commands
         children:
             LootPlus.tweaks: true
+            LootPlus.lpupdate: op
    LootPlus.tweaks:
       description: Displays the tweaks implemented by LootPlus on the server
       default: true
+   LootPlus.lpupdate:
+      description: Forcefully updates the LootPlus plugin
+      default: op
