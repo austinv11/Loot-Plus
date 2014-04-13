@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,13 +22,11 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class LootPlus extends JavaPlugin implements Listener{
-	public String CURRENT_VERSION = "1.0.1"; //TODO remember to update
+public final class LootPlus extends JavaPlugin implements Listener{
+	public String CURRENT_VERSION = "1.1.0"; //TODO remember to update
 	FileConfiguration config = getConfig();
-	PluginManager pm = Bukkit.getServer().getPluginManager();
 	float HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
 	float CHICKEN_BEAK_RATE = 0.025f; //Same as head drop rate, currently
 	float DRAGON_EYE_RATE = 0.1f;
@@ -48,8 +45,15 @@ public class LootPlus extends JavaPlugin implements Listener{
 		if (config.getBoolean("Options.setToDefault") == true){
 			configInit(true);
 		}
-		pm.registerEvents(this, this);
+		new DungeonChestPopulator(this);
+		getServer().getPluginManager().registerEvents(this, this);
 		getLogger().info("Loot on this server is now enhanced by LootPlus V"+CURRENT_VERSION+"!");
+	}
+	public FileConfiguration getDefaultConfig(){
+		return getConfig();
+	}
+	public void log(String message){
+		getLogger().info(message);
 	}
 	public void configInit(boolean override){
 		if (override == false){
@@ -76,7 +80,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 			getLogger().info("Initiated config!");
 		} else if (override == true){
 			getLogger().info("Reverting config to defaults...");
-			config.set("Options.onlyCustomDrops", true);
+			config.set("Options.onlyCustomDrops", false);
 			config.set("Options.disableXPDrops", false);
 		//	config.set("Options.allowCustomDrops", "TODO");//FIXME
 			//config.set("Options.allowCustomXP", "TODO");//FIXME
@@ -167,7 +171,7 @@ public class LootPlus extends JavaPlugin implements Listener{
 				}
 			}
 		}
-		if (config.getBoolean("Options.disableXPDrops") == false){
+		if (config.getBoolean("Options.disableXPDrops") == true){
 			event.setDroppedExp(0);
 		}
 		if (event.getEntityType() == EntityType.BAT){//FIXME mob head

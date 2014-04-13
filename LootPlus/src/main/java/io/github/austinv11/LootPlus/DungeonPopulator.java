@@ -7,7 +7,7 @@ import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
 public class DungeonPopulator extends BlockPopulator{
-	ConfigClass cc = new ConfigClass();
+	LootPlus cc = new LootPlus();
 	public void populate(World world, Random random, Chunk source){
 		if (cc.getDefaultConfig().getBoolean("Features.extraDungeons") == true){
 			//TODO

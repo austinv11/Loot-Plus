@@ -3,6 +3,7 @@ package io.github.austinv11.LootPlus;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -11,41 +12,45 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkPopulateEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class DungeonChestPopulator extends JavaPlugin implements Listener{
-	FileConfiguration config = getConfig();
-	
-	@EventHandler
+public final class DungeonChestPopulator implements Listener{
+	public DungeonChestPopulator(LootPlus plugin){
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
+	FileConfiguration config = Bukkit.getPluginManager().getPlugin("LootPlus").getConfig();
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onGeneration(ChunkPopulateEvent event){
 		if (config.getBoolean("Features.extraDungeonLoot") == true){
 			BlockState[] tileEnts = event.getChunk().getTileEntities();
 			for (BlockState state : tileEnts) {
-				if (state.getType() != Material.CHEST)
+				if (state.getType() != Material.CHEST){
 					continue;
-				Chest chest = (Chest) state;
-				getLogger().info("Enhancing dungeon loot at dungeon chest- X: "+chest.getX()+" Y: "+chest.getY()+" Z: "+chest.getZ());
-				Inventory cInv = chest.getInventory();
-				double lootPasses = Math.random();
-				int passes;
-				if (lootPasses <= 0.1){//10% of nothing new
-					passes = 0;
-				} else if (lootPasses <= 0.3){//20% of one new thing
-					passes = 1;
-				}else if (lootPasses <= 0.6){//30% of two new things
-					passes = 2;
-				}else if (lootPasses <= 0.9){//30% of three new things
-					passes = 3;
-				}else{//10% of 4 new things
-					passes = 4;
-				}
-				for (int i = 0; i < passes; i++){
-					cInv.addItem(randLoot());
+				}else{
+					Chest chest = (Chest) state;
+					Bukkit.getLogger().info("Enhancing dungeon loot at dungeon chest- X: "+chest.getX()+" Y: "+chest.getY()+" Z: "+chest.getZ());
+					Inventory cInv = chest.getInventory();
+					double lootPasses = Math.random();
+					int passes;
+					if (lootPasses <= 0.1){//10% of nothing new
+						passes = 0;
+					} else if (lootPasses <= 0.3){//20% of one new thing
+						passes = 1;
+					}else if (lootPasses <= 0.6){//30% of two new things
+						passes = 2;
+					}else if (lootPasses <= 0.9){//30% of three new things
+						passes = 3;
+					}else{//10% of 4 new things
+						passes = 4;
+					}
+					for (int i = 0; i < passes; i++){
+						cInv.addItem(randLoot());
+					}
 				}
 			}
 		}
@@ -101,7 +106,7 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 			lores.add("May Notch bless your stomach");
 			ItemMeta meta = loot.getItemMeta();
 			meta.setLore(lores);
-			meta.setDisplayName("Notched CHAINen Apple");
+			meta.setDisplayName("Notched Golden Apple");
 			loot.setItemMeta(meta);
 			return loot;
 		}else if (lootType <= 0.25){//5% for cobweb
@@ -148,23 +153,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(61);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(62);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(61);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(62);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(61);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(62);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
 			}else if (itemKind <= 0.12){//10% for shovel
@@ -178,23 +183,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 7);
+					item.addUnsafeEnchantment(newEnchant, 7);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(33);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
 			}else if (itemKind <= 0.22){//10% for axe
@@ -208,23 +213,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 7);
+					item.addUnsafeEnchantment(newEnchant, 7);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(33);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
 			}else if (itemKind <= 0.37){//15% for pick
@@ -238,23 +243,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 7);
+					item.addUnsafeEnchantment(newEnchant, 7);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(33);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
 			}else if (itemKind <= 0.54){//17% for Sword
@@ -268,21 +273,21 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 7);
+					item.addUnsafeEnchantment(newEnchant, 7);
 					Enchantment newEnchant2 = new EnchantmentWrapper(20);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(17);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(18);
-					item.addEnchantment(newEnchant2, 6);
+					item.addUnsafeEnchantment(newEnchant2, 6);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(21);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 				}
 				return item;
 			}else if (itemKind <= 0.65){//11% for boots
@@ -296,23 +301,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 7);
+					item.addUnsafeEnchantment(newEnchant, 7);
 					Enchantment newEnchant2 = new EnchantmentWrapper(2);
-					item.addEnchantment(newEnchant2, 7);
+					item.addUnsafeEnchantment(newEnchant2, 7);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 6);
+					item.addUnsafeEnchantment(newEnchant2, 6);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 6);
+					item.addUnsafeEnchantment(newEnchant3, 6);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(2);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 				}
 				return item;
 			}else if (itemKind <= 0.72){//7% for pants
@@ -326,19 +331,19 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 7);
+					item.addUnsafeEnchantment(newEnchant, 7);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 6);
+					item.addUnsafeEnchantment(newEnchant2, 6);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 6);
+					item.addUnsafeEnchantment(newEnchant3, 6);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 				}
 				return item;
 			}else if (itemKind <= 0.83){//11% for chestplate
@@ -352,23 +357,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 7);
+					item.addUnsafeEnchantment(newEnchant, 7);
 					Enchantment newEnchant2 = new EnchantmentWrapper(7);
-					item.addEnchantment(newEnchant2, 6);
+					item.addUnsafeEnchantment(newEnchant2, 6);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 6);
+					item.addUnsafeEnchantment(newEnchant2, 6);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 6);
+					item.addUnsafeEnchantment(newEnchant3, 6);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(7);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 				}
 				return item;
 			}else if (itemKind <= 0.9){//7% for Helmet
@@ -382,27 +387,27 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 7);
+					item.addUnsafeEnchantment(newEnchant, 7);
 					Enchantment newEnchant2 = new EnchantmentWrapper(5);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 					Enchantment newEnchant3 = new EnchantmentWrapper(6);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 					Enchantment newEnchant4 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant4, 3);
+					item.addUnsafeEnchantment(newEnchant4, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 6);
+					item.addUnsafeEnchantment(newEnchant2, 6);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 6);
+					item.addUnsafeEnchantment(newEnchant3, 6);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(5);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(6);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
 			}else if (itemKind <= 1){//10% for battlesign
@@ -416,18 +421,18 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 4);
+					item.addUnsafeEnchantment(newEnchant, 4);
 					Enchantment newEnchant2 = new EnchantmentWrapper(19);
-					item.addEnchantment(newEnchant2, 20);
+					item.addUnsafeEnchantment(newEnchant2, 20);
 					Enchantment newEnchant3 = new EnchantmentWrapper(20);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 4);
+					item.addUnsafeEnchantment(newEnchant, 4);
 					Enchantment newEnchant2 = new EnchantmentWrapper(19);
-					item.addEnchantment(newEnchant2, 15);
+					item.addUnsafeEnchantment(newEnchant2, 15);
 					Enchantment newEnchant3 = new EnchantmentWrapper(20);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
 			}
@@ -444,23 +449,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(61);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(62);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(61);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(62);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(61);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(62);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
 			}else if (itemKind <= 0.12){//10% for shovel
@@ -474,23 +479,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(33);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.22){//10% for axe
@@ -504,23 +509,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(33);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.37){//15% for pick
@@ -534,23 +539,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(33);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.54){//17% for Sword
@@ -564,21 +569,21 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(20);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(17);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(18);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(21);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 				}
 				return item;
 			}else if (itemKind <= 0.65){//11% for boots
@@ -592,23 +597,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(2);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 4);
+					item.addUnsafeEnchantment(newEnchant, 4);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 4);
+					item.addUnsafeEnchantment(newEnchant3, 4);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 4);
+					item.addUnsafeEnchantment(newEnchant, 4);
 					Enchantment newEnchant2 = new EnchantmentWrapper(2);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 				}
 				return item;
 			}else if (itemKind <= 0.72){//7% for pants
@@ -622,19 +627,19 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 4);
+					item.addUnsafeEnchantment(newEnchant, 4);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 4);
+					item.addUnsafeEnchantment(newEnchant3, 4);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 4);
+					item.addUnsafeEnchantment(newEnchant, 4);
 				}
 				return item;
 			}else if (itemKind <= 0.83){//11% for chestplate
@@ -648,23 +653,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(7);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 3);
+					item.addUnsafeEnchantment(newEnchant3, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 4);
+					item.addUnsafeEnchantment(newEnchant, 4);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 4);
+					item.addUnsafeEnchantment(newEnchant3, 4);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 4);
+					item.addUnsafeEnchantment(newEnchant, 4);
 					Enchantment newEnchant2 = new EnchantmentWrapper(2);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 				}
 				return item;
 			}else if (itemKind <= 0.9){//7% for Helmet
@@ -678,27 +683,27 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 6);
+					item.addUnsafeEnchantment(newEnchant, 6);
 					Enchantment newEnchant2 = new EnchantmentWrapper(5);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(6);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 					Enchantment newEnchant4 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant4, 3);
+					item.addUnsafeEnchantment(newEnchant4, 3);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 4);
+					item.addUnsafeEnchantment(newEnchant, 4);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 4);
+					item.addUnsafeEnchantment(newEnchant2, 4);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 4);
+					item.addUnsafeEnchantment(newEnchant3, 4);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 5);
+					item.addUnsafeEnchantment(newEnchant, 5);
 					Enchantment newEnchant2 = new EnchantmentWrapper(5);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 					Enchantment newEnchant3 = new EnchantmentWrapper(6);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
 			}else if (itemKind <= 1){//10% for battlesign
@@ -712,18 +717,18 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(19);
-					item.addEnchantment(newEnchant2, 10);
+					item.addUnsafeEnchantment(newEnchant2, 10);
 					Enchantment newEnchant3 = new EnchantmentWrapper(20);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(19);
-					item.addEnchantment(newEnchant2, 10);
+					item.addUnsafeEnchantment(newEnchant2, 10);
 					Enchantment newEnchant3 = new EnchantmentWrapper(20);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}
 				return item;
 			}
@@ -740,21 +745,21 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(61);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(62);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(61);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(62);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(61);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(62);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.12){//10% for shovel
@@ -768,21 +773,21 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(33);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.22){//10% for axe
@@ -796,21 +801,21 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(33);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.37){//15% for pick
@@ -824,21 +829,21 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(33);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.54){//17% for Sword
@@ -852,21 +857,21 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(20);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(17);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(18);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(21);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.65){//11% for boots
@@ -880,23 +885,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(2);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(2);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.72){//7% for pants
@@ -910,19 +915,19 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 				}
 				return item;
 			}else if (itemKind <= 0.83){//11% for chestplate
@@ -936,23 +941,23 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(7);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(7);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
 			}else if (itemKind <= 0.9){//7% for Helmet
@@ -966,27 +971,27 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 3);
+					item.addUnsafeEnchantment(newEnchant, 3);
 					Enchantment newEnchant2 = new EnchantmentWrapper(5);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(6);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 					Enchantment newEnchant4 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant4, 2);
+					item.addUnsafeEnchantment(newEnchant4, 2);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 2);
+					item.addUnsafeEnchantment(newEnchant3, 2);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(5);
-					item.addEnchantment(newEnchant2, 2);
+					item.addUnsafeEnchantment(newEnchant2, 2);
 					Enchantment newEnchant3 = new EnchantmentWrapper(6);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}
 				return item;
 			}else if (itemKind <= 1){//10% for battlesign
@@ -1000,16 +1005,16 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(19);
-					item.addEnchantment(newEnchant2, 7);
+					item.addUnsafeEnchantment(newEnchant2, 7);
 					Enchantment newEnchant3 = new EnchantmentWrapper(20);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(19);
-					item.addEnchantment(newEnchant2, 5);
+					item.addUnsafeEnchantment(newEnchant2, 5);
 				}
 				return item;
 			}
@@ -1023,9 +1028,9 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				meta.setLore(lores);
 				item.setItemMeta(meta);
 				Enchantment newEnchant = new EnchantmentWrapper(61);
-				item.addEnchantment(newEnchant, 1);
+				item.addUnsafeEnchantment(newEnchant, 1);
 				Enchantment newEnchant2 = new EnchantmentWrapper(34);
-				item.addEnchantment(newEnchant2, 1);
+				item.addUnsafeEnchantment(newEnchant2, 1);
 				return item;
 			}else if (itemKind <= 0.12){//10% for shovel
 				item = new ItemStack(Material.STONE_SPADE);
@@ -1038,12 +1043,12 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 				}
 				return item;
 			}else if (itemKind <= 0.22){//10% for axe
@@ -1057,12 +1062,12 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 				}
 				return item;
 			}else if (itemKind <= 0.37){//15% for pick
@@ -1076,12 +1081,12 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 2);
+					item.addUnsafeEnchantment(newEnchant, 2);
 					Enchantment newEnchant2 = new EnchantmentWrapper(35);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(32);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 				}
 				return item;
 			}else if (itemKind <= 0.54){//17% for Sword
@@ -1095,25 +1100,25 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(17);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(18);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(21);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}
 				return item;
 			}else if (itemKind <= 0.65){//11% for boots
 				item = new ItemStack(Material.LEATHER_BOOTS);
 				List<String> lores = new ArrayList<String>();
-				lores.add("Item Value: "+ChatColor.GRAY+"POOR");
+				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
 				ItemMeta meta = item.getItemMeta();
 				meta.setLore(lores);
 				meta.setDisplayName("Poor Boots");
@@ -1121,29 +1126,29 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(2);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(2);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}
 				return item;
 			}else if (itemKind <= 0.72){//7% for pants
 				item = new ItemStack(Material.LEATHER_LEGGINGS);
 				List<String> lores = new ArrayList<String>();
-				lores.add("Item Value: "+ChatColor.GRAY+"POOR");
+				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
 				ItemMeta meta = item.getItemMeta();
 				meta.setLore(lores);
 				meta.setDisplayName("Poor Leggings");
@@ -1151,25 +1156,25 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 				}
 				return item;
 			}else if (itemKind <= 0.83){//11% for chestplate
 				item = new ItemStack(Material.LEATHER_CHESTPLATE);
 				List<String> lores = new ArrayList<String>();
-				lores.add("Item Value: "+ChatColor.GRAY+"POOR");
+				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
 				ItemMeta meta = item.getItemMeta();
 				meta.setLore(lores);
 				meta.setDisplayName("Poor Boots");
@@ -1177,57 +1182,57 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(7);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(7);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}
 				return item;
 			}else if (itemKind <= 0.9){//7% for Helmet
 				item = new ItemStack(Material.LEATHER_HELMET);
 				List<String> lores = new ArrayList<String>();
-				lores.add("Item Value: "+ChatColor.WHITE+"Common");
+				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
 				ItemMeta meta = item.getItemMeta();
 				meta.setLore(lores);
-				meta.setDisplayName("Common Helmet");
+				meta.setDisplayName("Poor Helmet");
 				item.setItemMeta(meta);
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(5);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(6);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 					Enchantment newEnchant4 = new EnchantmentWrapper(34);
-					item.addEnchantment(newEnchant4, 1);
+					item.addUnsafeEnchantment(newEnchant4, 1);
 				}else if (enchants <= 0.85){
 					Enchantment newEnchant = new EnchantmentWrapper(1);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(3);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(4);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}else{
 					Enchantment newEnchant = new EnchantmentWrapper(0);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(5);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 					Enchantment newEnchant3 = new EnchantmentWrapper(6);
-					item.addEnchantment(newEnchant3, 1);
+					item.addUnsafeEnchantment(newEnchant3, 1);
 				}
 				return item;
 			}else if (itemKind <= 1){//10% for battlesign
@@ -1241,12 +1246,12 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				double enchants = Math.random();
 				if (enchants <= 0.35){
 					Enchantment newEnchant = new EnchantmentWrapper(16);
-					item.addEnchantment(newEnchant, 1);
+					item.addUnsafeEnchantment(newEnchant, 1);
 					Enchantment newEnchant2 = new EnchantmentWrapper(19);
-					item.addEnchantment(newEnchant2, 3);
+					item.addUnsafeEnchantment(newEnchant2, 3);
 				}else{
 					Enchantment newEnchant2 = new EnchantmentWrapper(19);
-					item.addEnchantment(newEnchant2, 1);
+					item.addUnsafeEnchantment(newEnchant2, 1);
 				}
 				return item;
 			}
