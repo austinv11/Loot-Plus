@@ -44,7 +44,9 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 				}else{//10% of 4 new things
 					passes = 4;
 				}
-				
+				for (int i = 0; i < passes; i++){
+					cInv.addItem(randLoot());
+				}
 			}
 		}
 	}
@@ -117,8 +119,19 @@ public class DungeonChestPopulator extends JavaPlugin implements Listener{
 			loot.setItemMeta(meta);
 			return loot;
 		}else if (lootType <= .38){//10%
-			
+			ItemStack loot = tieredLoot("Legendary");
+			return loot;
+		}else if (lootType <= .58){//20%
+			ItemStack loot = tieredLoot("Rare");
+			return loot;
+		}else if (lootType <= .88){//30%
+			ItemStack loot = tieredLoot("Common");
+			return loot;
+		}else if (lootType <= 1){//12%
+			ItemStack loot = tieredLoot("Poor");
+			return loot;
 		}
+		return null;
 	}
 	public ItemStack tieredLoot(String level){//TODO add bows, add custom names
 		ItemStack item;
