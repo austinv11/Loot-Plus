@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.gravitydevelopment.updater.Updater;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -26,6 +29,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LootPlus extends JavaPlugin implements Listener{
 	public String CURRENT_VERSION = "1.1.0"; //TODO remember to update
+	public String CURRENT_GAME_VERSION = "CB 1.7.2-R0.3"; //TODO remember to update
+	int id;
 	FileConfiguration config = getConfig();
 	float HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
 	float CHICKEN_BEAK_RATE = 0.025f; //Same as head drop rate, currently
@@ -41,9 +46,17 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	float ZOMBIE_FEATHER_RATE = 0.3f;
 	@Override
 	public void onEnable(){
+		//Big thanks to Gravity for his autoupdater! 
+		//http://forums.bukkit.org/threads/updater-2-1-easy-safe-and-policy-compliant-auto-updating-for-your-plugins-new.96681/
 		configInit(false);
 		if (config.getBoolean("Options.setToDefault") == true){
 			configInit(true);
+		}
+		Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
+		if (updater.getLatestGameVersion() == CURRENT_GAME_VERSION && config.getBoolean("Options.autoUpdate") == true){
+			Updater updaterAuto = new Updater(this, id, this.getFile(), Updater.UpdateType.DEFAULT, true);
+		}else if (updater.getLatestGameVersion() == CURRENT_GAME_VERSION && updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE){
+			getLogger().info("An update is available for LootPlus, for Bukkit version" +updater.getLatestGameVersion()+ " available at " + updater.getLatestFileLink());
 		}
 		new DungeonChestPopulator(this);
 		getServer().getPluginManager().registerEvents(this, this);
@@ -64,7 +77,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			//config.addDefault("Options.allowCustomXP", "TODO");//FIXME
 			//config.addDefault("Options.allowCustomDungeonLoot", "TODO");//FIXME
 			//config.addDefault("Options.allowCustomSpawnRate", "TODO");//FIXME
-			//config.addDefault("Options.updateNotifications", "TODO");//FIXME
+			config.addDefault("Options.autoUpdate", true);
 			config.addDefault("Options.setToDefault", false);
 			config.addDefault("Features.headDrops", true);
 			config.addDefault("Features.playerHeadDrops", true);
@@ -86,7 +99,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			//config.set("Options.allowCustomXP", "TODO");//FIXME
 			//config.set("Options.allowCustomDungeonLoot", "TODO");//FIXME
 			//config.set("Options.allowCustomSpawnRate", "TODO");//FIXME
-			//config.set("Options.updateNotifications", "TODO");//FIXME
+			config.set("Options.autoUpdate", true);
 			config.set("Options.setToDefault", false);
 			config.set("Features.headDrops", true);
 			config.set("Features.playerHeadDrops", true);
@@ -105,6 +118,15 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	public void onDisable(){
 		//TODO
 		getLogger().info("LootPlus no longer affects this server");
+	}
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event){
+		Player player = event.getPlayer();
+		Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
+		if (player.isOp() && updater.getLatestGameVersion() == CURRENT_GAME_VERSION && config.getBoolean("Options.autoUpdate") == true){
+			player.sendMessage("An update has been found for "+ChatColor.YELLOW+"LootPlus"+ChatColor.WHITE+"!");
+			player.sendMessage("Type /lpupdate to update the plugin!");
+		}
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){//TODO remember to update
@@ -155,6 +177,11 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			if (config.getBoolean("Features.bossMobs") == true){
 				sender.sendMessage(ChatColor.GREEN+"+Random chance of a 'boss mob' to spawn (with cool loot!)");
 			}
+			return true;
+		}else if (cmd.getName().equalsIgnoreCase("lpupdate")){
+			sender.sendMessage("Forcefully updating the LootPlus plugin");
+			Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
+			sender.sendMessage("Done!");
 			return true;
 		}
 		return false;
