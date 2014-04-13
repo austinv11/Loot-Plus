@@ -41,4 +41,4 @@ Planned Features
 
 +Stat-tracking (ie number of zombies killed, etc)
 
-+Update Notifications (definately not auto-updating *shivers thinking about its issues*)
++Update Notifications and/or auto-updating
