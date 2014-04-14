@@ -20,7 +20,7 @@ commands:
 
 permissions:
    LootPlus.*:
-        description: Gives access to all Endgame commands
+        description: Gives access to all LootPlus commands
         children:
             LootPlus.tweaks: true
             LootPlus.lpupdate: op
