@@ -16,6 +16,10 @@ Current Features
 
 *Additional mob drops
 
+*Additional dungeon loot
+
+*Update Notifications and auto-updating
+
 Planned Features
 ----------------
 
@@ -24,8 +28,6 @@ Planned Features
 +Custom mob xp drops
 
 +Custom dungeon loot (+probability)
-
-+Additional dungeon loot (for default)
 
 +Additional 'enchantments' (ex. like vorpal/beheading to get heads easier)
 
@@ -40,5 +42,3 @@ Planned Features
 +Custom spawn rate for mobs (including unnaturally spawning mobs like Wither, Giant, etc)
 
 +Stat-tracking (ie number of zombies killed, etc)
-
-+Update Notifications and/or auto-updating
