@@ -27,9 +27,4 @@ permissions:
       description: Displays the tweaks implemented by LootPlus on the server
       default: true
    LootPlus.lpupdate:
-<<<<<<< HEAD
       description: Forcefully updates the LootPlus plugin
-=======
-      description: Forcefully updates the LootPlus plugin
-      default: op
->>>>>>> FETCH_HEAD
