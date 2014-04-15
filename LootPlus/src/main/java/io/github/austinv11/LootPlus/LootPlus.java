@@ -30,7 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class LootPlus extends JavaPlugin implements Listener{
 	public String CURRENT_VERSION = "1.1.0"; //TODO remember to update
 	public String CURRENT_GAME_VERSION = "CB 1.7.2-R0.3"; //TODO remember to update
-	int id;
+	int id = 77925;
 	FileConfiguration config = getConfig();
 	float HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
 	float CHICKEN_BEAK_RATE = 0.025f; //Same as head drop rate, currently

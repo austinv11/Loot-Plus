@@ -23,10 +23,8 @@ permissions:
         description: Gives access to all Endgame commands
         children:
             LootPlus.tweaks: true
-            LootPlus.lpupdate: op
    LootPlus.tweaks:
       description: Displays the tweaks implemented by LootPlus on the server
       default: true
    LootPlus.lpupdate:
       description: Forcefully updates the LootPlus plugin
-      default: op
