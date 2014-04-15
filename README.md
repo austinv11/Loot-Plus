@@ -42,3 +42,5 @@ Planned Features
 +Custom spawn rate for mobs (including unnaturally spawning mobs like Wither, Giant, etc)
 
 +Stat-tracking (ie number of zombies killed, etc)
+
++Expanding the tiered-loot system
