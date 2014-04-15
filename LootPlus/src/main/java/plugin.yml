@@ -20,11 +20,16 @@ commands:
 
 permissions:
    LootPlus.*:
-        description: Gives access to all Endgame commands
+        description: Gives access to all LootPlus commands
         children:
             LootPlus.tweaks: true
    LootPlus.tweaks:
       description: Displays the tweaks implemented by LootPlus on the server
       default: true
    LootPlus.lpupdate:
+<<<<<<< HEAD
       description: Forcefully updates the LootPlus plugin
+=======
+      description: Forcefully updates the LootPlus plugin
+      default: op
+>>>>>>> FETCH_HEAD
