@@ -58,6 +58,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 		}else if (updater.getLatestGameVersion() == CURRENT_GAME_VERSION && updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE){
 			getLogger().info("An update is available for LootPlus, for Bukkit version" +updater.getLatestGameVersion()+ " available at " + updater.getLatestFileLink());
 		}
+		new CustomMobDropInterface(this);
 		new DungeonChestPopulator(this);
 		getServer().getPluginManager().registerEvents(this, this);
 		getLogger().info("Loot on this server is now enhanced by LootPlus V"+CURRENT_VERSION+"!");
