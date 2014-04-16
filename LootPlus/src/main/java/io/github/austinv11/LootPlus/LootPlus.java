@@ -17,6 +17,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -52,11 +53,13 @@ public final class LootPlus extends JavaPlugin implements Listener{
 		if (config.getBoolean("Options.setToDefault") == true){
 			configInit(true);
 		}
-		Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
-		if (updater.getLatestGameVersion() == CURRENT_GAME_VERSION && config.getBoolean("Options.autoUpdate") == true){
-			Updater updaterAuto = new Updater(this, id, this.getFile(), Updater.UpdateType.DEFAULT, true);
-		}else if (updater.getLatestGameVersion() == CURRENT_GAME_VERSION && updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE){
-			getLogger().info("An update is available for LootPlus, for Bukkit version" +updater.getLatestGameVersion()+ " available at " + updater.getLatestFileLink());
+		if (config.getBoolean("Options.updates") == true){
+			Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
+			if (updater.getLatestGameVersion() == CURRENT_GAME_VERSION && config.getBoolean("Options.autoUpdate") == true){
+				Updater updaterAuto = new Updater(this, id, this.getFile(), Updater.UpdateType.DEFAULT, true);
+			}else if (updater.getLatestGameVersion() == CURRENT_GAME_VERSION && updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE){
+				getLogger().info("An update is available for LootPlus, for Bukkit version" +updater.getLatestGameVersion()+ " available at " + updater.getLatestFileLink());
+			}
 		}
 		new CustomMobDropInterface(this);
 		new DungeonChestPopulator(this);
@@ -74,10 +77,11 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			getLogger().info("Initiating config...");
 			config.addDefault("Options.onlyCustomDrops", false);
 			config.addDefault("Options.disableXPDrops", false);
-			//config.addDefault("Options.allowCustomDrops", "TODO");//FIXME
-			//config.addDefault("Options.allowCustomXP", "TODO");//FIXME
+			config.addDefault("Options.allowCustomDrops", false);
+			config.addDefault("Options.allowCustomXP", false);
 			//config.addDefault("Options.allowCustomDungeonLoot", "TODO");//FIXME
 			//config.addDefault("Options.allowCustomSpawnRate", "TODO");//FIXME
+			config.addDefault("Options.updates", true);
 			config.addDefault("Options.autoUpdate", true);
 			config.addDefault("Options.setToDefault", false);
 			config.addDefault("Features.headDrops", true);
@@ -96,10 +100,11 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			getLogger().info("Reverting config to defaults...");
 			config.set("Options.onlyCustomDrops", false);
 			config.set("Options.disableXPDrops", false);
-		//	config.set("Options.allowCustomDrops", "TODO");//FIXME
-			//config.set("Options.allowCustomXP", "TODO");//FIXME
+			config.set("Options.allowCustomDrops", false);
+			config.set("Options.allowCustomXP", false);
 			//config.set("Options.allowCustomDungeonLoot", "TODO");//FIXME
 			//config.set("Options.allowCustomSpawnRate", "TODO");//FIXME
+			config.set("Options.updates", true);
 			config.set("Options.autoUpdate", true);
 			config.set("Options.setToDefault", false);
 			config.set("Features.headDrops", true);
@@ -120,13 +125,15 @@ public final class LootPlus extends JavaPlugin implements Listener{
 		//TODO
 		getLogger().info("LootPlus no longer affects this server");
 	}
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
-		Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
-		if (player.isOp() && updater.getLatestGameVersion() == CURRENT_GAME_VERSION && config.getBoolean("Options.autoUpdate") == true){
-			player.sendMessage("An update has been found for "+ChatColor.YELLOW+"LootPlus"+ChatColor.WHITE+"!");
-			player.sendMessage("Type /lpupdate to update the plugin!");
+		if (config.getBoolean("Options.updates") == true){
+			Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
+			if (player.isOp() && updater.getLatestGameVersion() == CURRENT_GAME_VERSION && config.getBoolean("Options.autoUpdate") == true){
+				player.sendMessage("An update has been found for "+ChatColor.YELLOW+"LootPlus"+ChatColor.WHITE+"!");
+				player.sendMessage("Type /lpupdate to update the plugin!");
+			}
 		}
 	}
 	@Override
@@ -180,14 +187,18 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			}
 			return true;
 		}else if (cmd.getName().equalsIgnoreCase("lpupdate")){
-			sender.sendMessage("Forcefully updating the LootPlus plugin");
-			Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
-			sender.sendMessage("Done!");
+			if (config.getBoolean("Options.updates") == true){
+				sender.sendMessage("Forcefully updating the LootPlus plugin");
+				Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
+				sender.sendMessage("Done!");
+			}else{
+				sender.sendMessage("Sorry, updates has been disabled via the config");
+			}
 			return true;
 		}
 		return false;
 	}
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onEntityDeath(EntityDeathEvent event){//FIXME mob head names
 		if (config.getBoolean("Options.onlyCustomDrops") == true){
 			Location items = event.getEntity().getLocation().clone();
@@ -848,7 +859,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			getLogger().info("Error: Unknown entity type killed (This could probably be ignored)");
 		}	
 	}
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 		if (config.getBoolean("Features.playerHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){

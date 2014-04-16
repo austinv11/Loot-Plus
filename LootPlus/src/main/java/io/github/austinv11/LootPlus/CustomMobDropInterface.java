@@ -3,12 +3,16 @@ package io.github.austinv11.LootPlus;
 import java.io.File;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class CustomMobDropInterface implements Listener{
 	FileConfiguration config = Bukkit.getPluginManager().getPlugin("LootPlus").getConfig();
@@ -20,101 +24,102 @@ public class CustomMobDropInterface implements Listener{
 		mobInit();
 	}
 	public void mobInit(){
-		mobDatas.addDefault("bat.xp", 0);
-		mobDatas.addDefault("bat.probablility", "[0,]");
-		mobDatas.addDefault("bat.drops", "[none,]");
-		mobDatas.addDefault("blaze.xp", 0);
-		mobDatas.addDefault("blaze.probablility", "[0,]");
-		mobDatas.addDefault("blaze.drops", "[none,]");
-		mobDatas.addDefault("caveSpider.xp", 0);
-		mobDatas.addDefault("caveSpider.probablility", "[0,]");
-		mobDatas.addDefault("caveSpider.drops", "[none,]");
-		mobDatas.addDefault("chicken.xp", 0);
-		mobDatas.addDefault("chicken.probablility", "[0,]");
-		mobDatas.addDefault("chicken.drops", "[none,]");
-		mobDatas.addDefault("cow.xp", 0);
-		mobDatas.addDefault("cow.probablility", "[0,]");
-		mobDatas.addDefault("cow.drops", "[none,]");
-		mobDatas.addDefault("creeper.xp", 0);
-		mobDatas.addDefault("creeper.probablility", "[0,]");
-		mobDatas.addDefault("creeper.drops", "[none,]");
-		mobDatas.addDefault("enderDragon.xp", 0);
-		mobDatas.addDefault("enderDragon.probablility", "[0,]");
-		mobDatas.addDefault("enderDragon.drops", "[none,]");
-		mobDatas.addDefault("enderman.xp", 0);
-		mobDatas.addDefault("enderman.probablility", "[0,]");
-		mobDatas.addDefault("enderman.drops", "[none,]");
-		mobDatas.addDefault("ghast.xp", 0);
-		mobDatas.addDefault("ghast.probablility", "[0,]");
-		mobDatas.addDefault("ghast.drops", "[none,]");
-		mobDatas.addDefault("giant.xp", 0);
-		mobDatas.addDefault("giant.probablility", "[0,]");
-		mobDatas.addDefault("giant.drops", "[none,]");
-		mobDatas.addDefault("horse.xp", 0);
-		mobDatas.addDefault("horse.probablility", "[0,]");
-		mobDatas.addDefault("horse.drops", "[none,]");
-		mobDatas.addDefault("ironGolem.xp", 0);
-		mobDatas.addDefault("ironGolem.probablility", "[0,]");
-		mobDatas.addDefault("ironGolem.drops", "[none,]");
-		mobDatas.addDefault("magmaCube.xp", 0);
-		mobDatas.addDefault("magmaCube.probablility", "[0,]");
-		mobDatas.addDefault("magmaCube.drops", "[none,]");
-		mobDatas.addDefault("mooshroom.xp", 0);
-		mobDatas.addDefault("mooshroom.probablility", "[0,]");
-		mobDatas.addDefault("mooshroom.drops", "[none,]");
-		mobDatas.addDefault("ocelot.xp", 0);
-		mobDatas.addDefault("ocelot.probablility", "[0,]");
-		mobDatas.addDefault("ocelot.drops", "[none,]");
-		mobDatas.addDefault("pig.xp", 0);
-		mobDatas.addDefault("pig.probablility", "[0,]");
-		mobDatas.addDefault("pig.drops", "[none,]");
-		mobDatas.addDefault("zombiePigman.xp", 0);
-		mobDatas.addDefault("zombiePigman.probablility", "[0,]");
-		mobDatas.addDefault("zombiePigman.drops", "[none,]");
-		mobDatas.addDefault("player.xp", 0);
-		mobDatas.addDefault("player.probablility", "[0,]");
-		mobDatas.addDefault("player.drops", "[none,]");
-		mobDatas.addDefault("sheep.xp", 0);
-		mobDatas.addDefault("sheep.probablility", "[0,]");
-		mobDatas.addDefault("sheep.drops", "[none,]");
-		mobDatas.addDefault("silverfish.xp", 0);
-		mobDatas.addDefault("silverfish.probablility", "[0,]");
-		mobDatas.addDefault("silverfish.drops", "[none,]");
-		mobDatas.addDefault("skeleton.xp", 0);
-		mobDatas.addDefault("skeleton.probablility", "[0,]");
-		mobDatas.addDefault("skeleton.drops", "[none,]");
-		mobDatas.addDefault("slime.xp", 0);
-		mobDatas.addDefault("slime.probablility", "[0,]");
-		mobDatas.addDefault("slime.drops", "[none,]");
-		mobDatas.addDefault("snowGolem.xp", 0);
-		mobDatas.addDefault("snowGolem.probablility", "[0,]");
-		mobDatas.addDefault("snowGolem.drops", "[none,]");
-		mobDatas.addDefault("spider.xp", 0);
-		mobDatas.addDefault("spider.probablility", "[0,]");
-		mobDatas.addDefault("spider.drops", "[none,]");
-		mobDatas.addDefault("squid.xp", 0);
-		mobDatas.addDefault("squid.probablility", "[0,]");
-		mobDatas.addDefault("squid.drops", "[none,]");
-		mobDatas.addDefault("villager.xp", 0);
-		mobDatas.addDefault("villager.probablility", "[0,]");
-		mobDatas.addDefault("villager.drops", "[none,]");
-		mobDatas.addDefault("witch.xp", 0);
-		mobDatas.addDefault("witch.probablility", "[0,]");
-		mobDatas.addDefault("witch.drops", "[none,]");
-		mobDatas.addDefault("wither.xp", 0);
-		mobDatas.addDefault("wither.probablility", "[0,]");
-		mobDatas.addDefault("wither.drops", "[none,]");
-		mobDatas.addDefault("wolf.xp", 0);
-		mobDatas.addDefault("wolf.probablility", "[0,]");
-		mobDatas.addDefault("wolf.drops", "[none,]");
-		mobDatas.addDefault("zombie.xp", 0);
-		mobDatas.addDefault("zombie.probablility", "[0,]");
-		mobDatas.addDefault("zombie.drops", "[none,]");
+		mobDatas.addDefault("BAT.xp", 0);
+		mobDatas.addDefault("BAT.probability", "[0,]");
+		mobDatas.addDefault("BAT.drops", "[none,]");
+		mobDatas.addDefault("BLAZE.xp", 0);
+		mobDatas.addDefault("BLAZE.probability", "[0,]");
+		mobDatas.addDefault("BLAZE.drops", "[none,]");
+		mobDatas.addDefault("CAVE_SPIDER.xp", 0);
+		mobDatas.addDefault("CAVE_SPIDER.probability", "[0,]");
+		mobDatas.addDefault("CAVE_SPIDER.drops", "[none,]");
+		mobDatas.addDefault("CHICKEN.xp", 0);
+		mobDatas.addDefault("CHICKEN.probability", "[0,]");
+		mobDatas.addDefault("CHICKEN.drops", "[none,]");
+		mobDatas.addDefault("COW.xp", 0);
+		mobDatas.addDefault("COW.probability", "[0,]");
+		mobDatas.addDefault("COW.drops", "[none,]");
+		mobDatas.addDefault("CREEPER.xp", 0);
+		mobDatas.addDefault("CREEPER.probability", "[0,]");
+		mobDatas.addDefault("CREEPER.drops", "[none,]");
+		mobDatas.addDefault("ENDER_DRAGON.xp", 0);
+		mobDatas.addDefault("ENDER_DRAGON.probability", "[0,]");
+		mobDatas.addDefault("ENDER_DRAGON.drops", "[none,]");
+		mobDatas.addDefault("ENDERMAN.xp", 0);
+		mobDatas.addDefault("ENDERMAN.probability", "[0,]");
+		mobDatas.addDefault("ENDERMAN.drops", "[none,]");
+		mobDatas.addDefault("GHAST.xp", 0);
+		mobDatas.addDefault("GHAST.probability", "[0,]");
+		mobDatas.addDefault("GHAST.drops", "[none,]");
+		mobDatas.addDefault("GIANT.xp", 0);
+		mobDatas.addDefault("GIANT.probability", "[0,]");
+		mobDatas.addDefault("GIANT.drops", "[none,]");
+		mobDatas.addDefault("HORSE.xp", 0);
+		mobDatas.addDefault("HORSE.probability", "[0,]");
+		mobDatas.addDefault("HORSE.drops", "[none,]");
+		mobDatas.addDefault("IRON_GOLEM.xp", 0);
+		mobDatas.addDefault("IRON_GOLEM.probability", "[0,]");
+		mobDatas.addDefault("IRON_GOLEM.drops", "[none,]");
+		mobDatas.addDefault("MAGMA_CUBE.xp", 0);
+		mobDatas.addDefault("MAGMA_CUBE.probability", "[0,]");
+		mobDatas.addDefault("MAGMA_CUBE.drops", "[none,]");
+		mobDatas.addDefault("MUSHROOM_COW.xp", 0);
+		mobDatas.addDefault("MUSHROOM_COW.probability", "[0,]");
+		mobDatas.addDefault("MUSHROOM_COW.drops", "[none,]");
+		mobDatas.addDefault("OCELOT.xp", 0);
+		mobDatas.addDefault("OCELOT.probability", "[0,]");
+		mobDatas.addDefault("OCELOT.drops", "[none,]");
+		mobDatas.addDefault("PIG.xp", 0);
+		mobDatas.addDefault("PIG.probability", "[0,]");
+		mobDatas.addDefault("PIG.drops", "[none,]");
+		mobDatas.addDefault("PIG_ZOMBIE.xp", 0);
+		mobDatas.addDefault("PIG_ZOMBIE.probability", "[0,]");
+		mobDatas.addDefault("PIG_ZOMBIE.drops", "[none,]");
+		mobDatas.addDefault("PLAYER.xp", 0);
+		mobDatas.addDefault("PLAYER.probability", "[0,]");
+		mobDatas.addDefault("PLAYER.drops", "[none,]");
+		mobDatas.addDefault("SHEEP.xp", 0);
+		mobDatas.addDefault("SHEEP.probability", "[0,]");
+		mobDatas.addDefault("SHEEP.drops", "[none,]");
+		mobDatas.addDefault("SILVERFISH.xp", 0);
+		mobDatas.addDefault("SILVERFISH.probability", "[0,]");
+		mobDatas.addDefault("SILVERFISH.drops", "[none,]");
+		mobDatas.addDefault("SKELETON.xp", 0);
+		mobDatas.addDefault("SKELETON.probability", "[0,]");
+		mobDatas.addDefault("SKELETON.drops", "[none,]");
+		mobDatas.addDefault("SLIME.xp", 0);
+		mobDatas.addDefault("SLIME.probability", "[0,]");
+		mobDatas.addDefault("SLIME.drops", "[none,]");
+		mobDatas.addDefault("SNOWMAN.xp", 0);
+		mobDatas.addDefault("SNOWMAN.probability", "[0,]");
+		mobDatas.addDefault("SNOWMAN.drops", "[none,]");
+		mobDatas.addDefault("SPIDER.xp", 0);
+		mobDatas.addDefault("SPIDER.probability", "[0,]");
+		mobDatas.addDefault("SPIDER.drops", "[none,]");
+		mobDatas.addDefault("SQUID.xp", 0);
+		mobDatas.addDefault("SQUID.probability", "[0,]");
+		mobDatas.addDefault("SQUID.drops", "[none,]");
+		mobDatas.addDefault("VILLAGER.xp", 0);
+		mobDatas.addDefault("VILLAGER.probability", "[0,]");
+		mobDatas.addDefault("VILLAGER.drops", "[none,]");
+		mobDatas.addDefault("WITCH.xp", 0);
+		mobDatas.addDefault("WITCH.probability", "[0,]");
+		mobDatas.addDefault("WITCH.drops", "[none,]");
+		mobDatas.addDefault("WITHER.xp", 0);
+		mobDatas.addDefault("WITHER.probability", "[0,]");
+		mobDatas.addDefault("WITHER.drops", "[none,]");
+		mobDatas.addDefault("WOLF.xp", 0);
+		mobDatas.addDefault("WOLF.probability", "[0,]");
+		mobDatas.addDefault("WOLF.drops", "[none,]");
+		mobDatas.addDefault("ZOMBIE.xp", 0);
+		mobDatas.addDefault("ZOMBIE.probability", "[0,]");
+		mobDatas.addDefault("ZOMBIE.drops", "[none,]");
 		mobDatas.options().copyDefaults(true);
 		save();
 	}
 	public String[] readTable(String table){
 		table = table.replace("[","").replace("]", "");
+		table = table.replace(" ","");
 		return table.split(",");
 	}
 	private void save(){
@@ -124,70 +129,37 @@ public class CustomMobDropInterface implements Listener{
 			e.printStackTrace();
 		}
 	}
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDeath(EntityDeathEvent event){
-		if (event.getEntityType() == EntityType.BAT){
-			
-		}else if (event.getEntityType() == EntityType.BLAZE){
-			
-		}else if (event.getEntityType() == EntityType.CAVE_SPIDER){
-			
-		}else if (event.getEntityType() == EntityType.CHICKEN){
-			
-		}else if (event.getEntityType() == EntityType.COW){
-			
-		}else if (event.getEntityType() == EntityType.CREEPER){
-			
-		}else if (event.getEntityType() == EntityType.ENDER_DRAGON){
-			
-		}else if (event.getEntityType() == EntityType.ENDERMAN){
-			
-		}else if (event.getEntityType() == EntityType.GHAST){
-			
-		}else if (event.getEntityType() == EntityType.GIANT){
-			
-		}else if (event.getEntityType() == EntityType.HORSE){
-			
-		}else if (event.getEntityType() == EntityType.IRON_GOLEM){
-			
-		}else if (event.getEntityType() == EntityType.MAGMA_CUBE){
-			
-		}else if (event.getEntityType() == EntityType.MUSHROOM_COW){
-			
-		}else if (event.getEntityType() == EntityType.OCELOT){
-			
-		}else if (event.getEntityType() == EntityType.PIG){
-			
-		}else if (event.getEntityType() == EntityType.PIG_ZOMBIE){
-			
-		}else if (event.getEntityType() == EntityType.PLAYER){
-			
-		}else if (event.getEntityType() == EntityType.SHEEP){
-			
-		}else if (event.getEntityType() == EntityType.SILVERFISH){
-			
-		}else if (event.getEntityType() == EntityType.SKELETON){
-			
-		}else if (event.getEntityType() == EntityType.SLIME){
-			
-		}else if (event.getEntityType() == EntityType.SNOWMAN){
-			
-		}else if (event.getEntityType() == EntityType.SPIDER){
-			
-		}else if (event.getEntityType() == EntityType.SQUID){
-			
-		}else if (event.getEntityType() == EntityType.VILLAGER){
-			
-		}else if (event.getEntityType() == EntityType.WITCH){
-			
-		}else if (event.getEntityType() == EntityType.WITHER){
-			
-		}else if (event.getEntityType() == EntityType.WOLF){
-			
-		}else if (event.getEntityType() == EntityType.ZOMBIE){
-			
-		}else {
-			Bukkit.getLogger().info("Error: Unknown entity type killed (This could probably be ignored)");
-		}	
+		if (mobDatas.getInt(event.getEntityType().toString()+".xp") == 0 && config.getBoolean("Options.allowCustomXP") == true){
+			event.setDroppedExp(0);
+		}else if (config.getBoolean("Options.allowCustomXP") == true){
+			event.setDroppedExp(mobDatas.getInt(event.getEntityType().toString()+".xp"));//Overrides the disableXPDrops config
+		}
+		if (config.getBoolean("Options.allowCustomDrops") == true){
+			String[] probability = readTable(mobDatas.getString(event.getEntityType().toString()+".probability"));
+			String[] drop = readTable(mobDatas.getString(event.getEntityType().toString()+".drops"));
+			if (probability[0] != "0" && drop[0] != "none"){
+				if (probability.length == drop.length){
+					for (int i = 0; i < drop.length; i++){
+						double loot = Math.random();
+						double chance = (Double.parseDouble(probability[i]) / 100);
+						if (loot <= chance){
+							Location loc = event.getEntity().getLocation().clone();
+							Material lookup = Material.getMaterial(drop[i].toUpperCase());
+							if (lookup != null){
+								ItemStack lootDrop = new ItemStack(lookup);//TODO add checks
+								Item item = loc.getWorld().dropItemNaturally(loc, lootDrop);
+								item.setItemStack(lootDrop);
+							}else{
+								Bukkit.getLogger().info("Error: Material '"+drop[i]+"' does not exist, please make sure it's a valid material");
+							}
+						}
+					}
+				}else {
+					Bukkit.getLogger().info("Error: Custom drop(s) for mob: '"+event.getEntityType().toString()+"' is invalid");
+				}
+			}
+		}
 	}
 }
