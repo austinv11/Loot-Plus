@@ -24,7 +24,7 @@ public final class DungeonChestPopulator implements Listener{
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	FileConfiguration config = Bukkit.getPluginManager().getPlugin("LootPlus").getConfig();
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onGeneration(ChunkPopulateEvent event){
 		if (config.getBoolean("Features.extraDungeonLoot") == true){
 			BlockState[] tileEnts = event.getChunk().getTileEntities();

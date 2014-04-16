@@ -62,6 +62,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			}
 		}
 		new CustomMobDropInterface(this);
+		new CustomDungeonLootInterface(this);
 		new DungeonChestPopulator(this);
 		getServer().getPluginManager().registerEvents(this, this);
 		getLogger().info("Loot on this server is now enhanced by LootPlus V"+CURRENT_VERSION+"!");
@@ -79,7 +80,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			config.addDefault("Options.disableXPDrops", false);
 			config.addDefault("Options.allowCustomDrops", false);
 			config.addDefault("Options.allowCustomXP", false);
-			//config.addDefault("Options.allowCustomDungeonLoot", "TODO");//FIXME
+			config.addDefault("Options.allowCustomDungeonLoot", false);
 			//config.addDefault("Options.allowCustomSpawnRate", "TODO");//FIXME
 			config.addDefault("Options.updates", true);
 			config.addDefault("Options.autoUpdate", true);
@@ -102,7 +103,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			config.set("Options.disableXPDrops", false);
 			config.set("Options.allowCustomDrops", false);
 			config.set("Options.allowCustomXP", false);
-			//config.set("Options.allowCustomDungeonLoot", "TODO");//FIXME
+			config.set("Options.allowCustomDungeonLoot", false);
 			//config.set("Options.allowCustomSpawnRate", "TODO");//FIXME
 			config.set("Options.updates", true);
 			config.set("Options.autoUpdate", true);

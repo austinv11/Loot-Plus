@@ -23,7 +23,7 @@ public class CustomMobDropInterface implements Listener{
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		mobInit();
 	}
-	public void mobInit(){
+	public void mobInit(){//drops must be Materials (defined here: http://jd.bukkit.org/beta/doxygen/d6/d0e/enumorg_1_1bukkit_1_1Material.html)
 		mobDatas.addDefault("BAT.xp", 0);
 		mobDatas.addDefault("BAT.probability", "[0]");
 		mobDatas.addDefault("BAT.drops", "[none]");
