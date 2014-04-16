@@ -8,17 +8,17 @@ Enhances and allows for customization of dungeon loot and mob drops
 Current Features
 ----------------
 
-*Normal Mob head as mob drops (ie Skeletons, zombies, etc)
+* Normal Mob head as mob drops (ie Skeletons, zombies, etc)
 
-*Players Drop heads
+* Players Drop heads
 
-*Additional Mobs drop heads (player heads for additional mobs, ie slime, etc)
+* Additional Mobs drop heads (player heads for additional mobs, ie slime, etc)
 
-*Additional mob drops
+* Additional mob drops
 
-*Additional dungeon loot
+* Additional dungeon loot
 
-*Update Notifications and auto-updating
+* Update Notifications and auto-updating
 
 Planned Features
 ----------------
@@ -44,3 +44,5 @@ Planned Features
 +Stat-tracking (ie number of zombies killed, etc)
 
 +Expanding the tiered-loot system
+
++A more user-friendly config
