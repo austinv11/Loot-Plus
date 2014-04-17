@@ -123,16 +123,16 @@ public final class DungeonChestPopulator implements Listener{
 			meta.setDisplayName("Nemo");
 			loot.setItemMeta(meta);
 			return loot;
-		}else if (lootType <= .38){//10%
+		}else if (lootType <= .33){//5%
 			ItemStack loot = tieredLoot("Legendary");
 			return loot;
-		}else if (lootType <= .58){//20%
+		}else if (lootType <= .43){//10%
 			ItemStack loot = tieredLoot("Rare");
 			return loot;
-		}else if (lootType <= .88){//30%
+		}else if (lootType <= .78){//35%
 			ItemStack loot = tieredLoot("Common");
 			return loot;
-		}else if (lootType <= 1){//12%
+		}else if (lootType <= 1){//22%
 			ItemStack loot = tieredLoot("Poor");
 			return loot;
 		}
