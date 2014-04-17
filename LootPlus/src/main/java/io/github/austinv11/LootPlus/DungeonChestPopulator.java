@@ -49,7 +49,10 @@ public final class DungeonChestPopulator implements Listener{
 						passes = 4;
 					}
 					for (int i = 0; i < passes; i++){
-						cInv.addItem(randLoot());
+						ItemStack newLoot = randLoot();
+						if (newLoot != null){
+							cInv.addItem();
+						}
 					}
 				}
 			}
@@ -57,7 +60,7 @@ public final class DungeonChestPopulator implements Listener{
 	}
 	public ItemStack randLoot(){
 		double lootType = Math.random();
-		if (lootType <= 0.1){//10% skele skull
+		if (lootType <= 0.03){//3% skele skull
 			byte type = 0;
 			ItemStack loot = new ItemStack(Material.SKULL_ITEM, 1, type);
 			List<String> lores = new ArrayList<String>();
@@ -66,7 +69,7 @@ public final class DungeonChestPopulator implements Listener{
 			meta.setLore(lores);
 			loot.setItemMeta(meta);
 			return loot;
-		}else if (lootType <= 0.19){//9% for extra records
+		}else if (lootType <= 0.12){//9% for extra records
 			double recordType = Math.random();
 			if (recordType <= 0.1){
 				ItemStack loot = new ItemStack(Material.RECORD_3);
@@ -99,7 +102,7 @@ public final class DungeonChestPopulator implements Listener{
 				ItemStack loot = new ItemStack(Material.RECORD_12);
 				return loot;
 			}
-		}else if (lootType <= 0.2){ //1% for Notch's apple
+		}else if (lootType <= 0.13){ //1% for Notch's apple
 			byte type = 1;
 			ItemStack loot = new ItemStack(Material.GOLDEN_APPLE, 1, type);
 			List<String> lores = new ArrayList<String>();
@@ -109,10 +112,10 @@ public final class DungeonChestPopulator implements Listener{
 			meta.setDisplayName("Notched Golden Apple");
 			loot.setItemMeta(meta);
 			return loot;
-		}else if (lootType <= 0.25){//5% for cobweb
+		}else if (lootType <= 0.15){//2% for cobweb
 			ItemStack loot = new ItemStack(Material.WEB);
 			return loot;
-		}else if (lootType <= 0.28){//3% for Nemo
+		}else if (lootType <= 0.18){//3% for Nemo
 			byte type = 2;
 			ItemStack loot = new ItemStack(Material.RAW_FISH, 1, type);
 			List<String> lores = new ArrayList<String>();
@@ -123,16 +126,18 @@ public final class DungeonChestPopulator implements Listener{
 			meta.setDisplayName("Nemo");
 			loot.setItemMeta(meta);
 			return loot;
-		}else if (lootType <= .33){//5%
+		}else if (lootType <= .53){//35% for nothing
+			return null;
+		}else if (lootType <= .58){//5%
 			ItemStack loot = tieredLoot("Legendary");
 			return loot;
-		}else if (lootType <= .43){//10%
+		}else if (lootType <= .65){//7%
 			ItemStack loot = tieredLoot("Rare");
 			return loot;
-		}else if (lootType <= .78){//35%
+		}else if (lootType <= .85){//20%
 			ItemStack loot = tieredLoot("Common");
 			return loot;
-		}else if (lootType <= 1){//22%
+		}else if (lootType <= 1){//15%
 			ItemStack loot = tieredLoot("Poor");
 			return loot;
 		}
