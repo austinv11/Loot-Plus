@@ -36,10 +36,10 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	public String CURRENT_GAME_VERSION = "CB 1.7.2-R0.3"; //TODO remember to update
 	int id = 77925;
 	FileConfiguration config = getConfig();
-	File mobData = new File(Bukkit.getPluginManager().getPlugin("LootPlus").getDataFolder(), "CustomLoot//mobLoot.yml");
+/*	File mobData = new File(getDataFolder(), "CustomLoot//mobLoot.yml"); FIXME
 	FileConfiguration mobDatas = YamlConfiguration.loadConfiguration(mobData);
-	File dungeonData = new File(Bukkit.getPluginManager().getPlugin("LootPlus").getDataFolder(), "CustomLoot//dungeonLoot.yml");
-	FileConfiguration dungeonDatas = YamlConfiguration.loadConfiguration(dungeonData);
+	File dungeonData = new File(getDataFolder(), "CustomLoot//dungeonLoot.yml");
+	FileConfiguration dungeonDatas = YamlConfiguration.loadConfiguration(dungeonData);*/
 	float HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
 	float PLAYER_HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
 	float CHICKEN_BEAK_RATE = 0.025f; //Same as head drop rate, currently
@@ -218,7 +218,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 				sender.sendMessage("Sorry, updates has been disabled via the config");
 			}
 			return true;
-		}else if (cmd.getName().equalsIgnoreCase("add-loot")){//TODO add checks
+/*FIXME		}else if (cmd.getName().equalsIgnoreCase("add-loot")){//TODO add checks
 			if (args[0].equalsIgnoreCase("dungeon") || args[0].equalsIgnoreCase("dungeons")){
 				if (args.length == 3){
 					if (dungeonDatas.getString("probability").replace("[","").replace("]", "").replace(" ","").replace("'", "").replace("‘", "").replace("’", "").equalsIgnoreCase("0") && dungeonDatas.getString("loot").replace("[","").replace("]", "").replace(" ","").replace("'", "").replace("‘", "").replace("’", "").equalsIgnoreCase("none")){
@@ -269,7 +269,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 				return true;
 			}else{
 				return false;
-			}
+			}*/
 		}
 		return false;
 	}
