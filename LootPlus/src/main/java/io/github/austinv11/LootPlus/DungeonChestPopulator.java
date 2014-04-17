@@ -33,7 +33,7 @@ public final class DungeonChestPopulator implements Listener{
 					continue;
 				}else{
 					Chest chest = (Chest) state;
-					Bukkit.getLogger().info("Enhancing dungeon loot at dungeon chest- X: "+chest.getX()+" Y: "+chest.getY()+" Z: "+chest.getZ());
+					//FIXME(just for tag) debug Bukkit.getLogger().info("Enhancing dungeon loot at dungeon chest- X: "+chest.getX()+" Y: "+chest.getY()+" Z: "+chest.getZ());
 					Inventory cInv = chest.getInventory();
 					double lootPasses = Math.random();
 					int passes;
