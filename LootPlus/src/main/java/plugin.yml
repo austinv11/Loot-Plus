@@ -17,6 +17,18 @@ commands:
       usage: /<command>
       permission: LootPlus.lpupdate
       permission-message: You don't have permission
+   add-loot:
+      description: Adds new loot to the game, in-game (sets allowCustomDrops to true)
+      usage: /<command> dungeon <probability (percentage)> <loot (Material form)> or /<command> mob <mob name> <probability (percentage)> <loot (Material form)>
+      permission: LootPlus.add-loot
+      permission-message: You don't have permission
+      aliases: [addloot, newloot, new-loot, setloot, set-loot]
+   set-xp:
+      description: Sets the amount of xp dropped by a mob (sets allowCustomXP to true)
+      usage: /<command> <mob> <xp>
+      permission: LootPlus.set-xp
+      permission-message: You don't have permission
+      aliases: [setxp, change-xp, changexp]
 
 permissions:
    LootPlus.*:
@@ -28,3 +40,7 @@ permissions:
       default: true
    LootPlus.lpupdate:
       description: Forcefully updates the LootPlus plugin
+   LootPlus.add-loot:
+      description: Adds new loot to the game, in-game (sets allowCustomDrops to true)
+   LootPlus.set-xp:
+      description: Sets the amount of xp dropped by a mob (sets allowCustomXP to true)

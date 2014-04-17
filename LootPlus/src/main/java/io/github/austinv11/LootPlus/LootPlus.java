@@ -1,17 +1,20 @@
 package io.github.austinv11.LootPlus;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import net.gravitydevelopment.updater.Updater;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -33,6 +36,10 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	public String CURRENT_GAME_VERSION = "CB 1.7.2-R0.3"; //TODO remember to update
 	int id = 77925;
 	FileConfiguration config = getConfig();
+	File mobData = new File(Bukkit.getPluginManager().getPlugin("LootPlus").getDataFolder(), "CustomLoot//mobLoot.yml");
+	FileConfiguration mobDatas = YamlConfiguration.loadConfiguration(mobData);
+	File dungeonData = new File(Bukkit.getPluginManager().getPlugin("LootPlus").getDataFolder(), "CustomLoot//dungeonLoot.yml");
+	FileConfiguration dungeonDatas = YamlConfiguration.loadConfiguration(dungeonData);
 	float HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
 	float PLAYER_HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
 	float CHICKEN_BEAK_RATE = 0.025f; //Same as head drop rate, currently
@@ -211,6 +218,58 @@ public final class LootPlus extends JavaPlugin implements Listener{
 				sender.sendMessage("Sorry, updates has been disabled via the config");
 			}
 			return true;
+		}else if (cmd.getName().equalsIgnoreCase("add-loot")){//TODO add checks
+			if (args[0].equalsIgnoreCase("dungeon") || args[0].equalsIgnoreCase("dungeons")){
+				if (args.length == 3){
+					if (dungeonDatas.getString("probability").replace("[","").replace("]", "").replace(" ","").replace("'", "").replace("‘", "").replace("’", "").equalsIgnoreCase("0") && dungeonDatas.getString("loot").replace("[","").replace("]", "").replace(" ","").replace("'", "").replace("‘", "").replace("’", "").equalsIgnoreCase("none")){
+						dungeonDatas.set("probability", "["+args[1]+"]");
+					}else{
+						String newProb = dungeonDatas.getString("probability").replace("]", "").replace("‘", "").replace("’", "").replace("'", "");
+						dungeonDatas.set("probability", newProb+","+args[1]+"]");
+					}
+					if (dungeonDatas.getString("loot").replace("[","").replace("]", "").replace(" ","").replace("'", "").replace("‘", "").replace("’", "").equalsIgnoreCase("none")){
+						dungeonDatas.set("loot", "["+args[2]+"]");
+					}else{
+						String newProb = dungeonDatas.getString("loot").replace("]", "").replace("‘", "").replace("’", "").replace("'", "");
+						dungeonDatas.set("loot", newProb+","+args[2]+"]");
+					}
+					config.set("Options.allowCustomDungeonLoot", true);
+					return true;
+				}else{
+					sender.sendMessage(ChatColor.RED+"Error: Too many or too little arguements");
+					return false;
+				}
+			}else if (args[0].equalsIgnoreCase("mob") || args[0].equalsIgnoreCase("mobs") || args[0].equalsIgnoreCase("animal") || args[0].equalsIgnoreCase("animals") || args[0].equalsIgnoreCase("monster") || args[0].equalsIgnoreCase("monsters")){
+				if (args.length == 4){
+					if (mobDatas.getString(args[1]+".probability").replace("[","").replace("]", "").replace(" ","").replace("'", "").replace("‘", "").replace("’", "").equalsIgnoreCase("0") && mobDatas.getString(args[1]+".loot").replace("[","").replace("]", "").replace(" ","").replace("'", "").replace("‘", "").replace("’", "").equalsIgnoreCase("none")){
+						mobDatas.set(args[1]+".probability", "["+args[2]+"]");
+					}else{
+						String newProb = mobDatas.getString(args[1]+".probability").replace("]", "").replace("‘", "").replace("’", "").replace("'", "");
+						mobDatas.set(args[1]+".probability", newProb+","+args[2]+"]");
+					}
+					if (mobDatas.getString(args[1]+".loot").replace("[","").replace("]", "").replace(" ","").replace("'", "").replace("‘", "").replace("’", "").equalsIgnoreCase("none")){
+						mobDatas.set(args[1]+".loot", "["+args[3]+"]");
+					}else{
+						String newProb = mobDatas.getString(args[1]+".loot").replace("]", "").replace("‘", "").replace("’", "").replace("'", "");
+						mobDatas.set(args[1]+".loot", newProb+","+args[3]+"]");
+					}
+					config.set("Options.allowCustomDrops", true);
+					return true;
+				}else{
+					sender.sendMessage(ChatColor.RED+"Error: Too many or too little arguements");
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}else if (cmd.getName().equalsIgnoreCase("set-xp")){//TODO add checks
+			if (args.length == 2){
+				mobDatas.set(args[0].toUpperCase()+".xp", Integer.parseInt(args[1]));
+				config.set("Options.allowCustomXP", true);
+				return true;
+			}else{
+				return false;
+			}
 		}
 		return false;
 	}
