@@ -34,6 +34,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	int id = 77925;
 	FileConfiguration config = getConfig();
 	float HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
+	float PLAYER_HEAD_DROP_RATE = 0.025f; //2.5% for wither skeles
 	float CHICKEN_BEAK_RATE = 0.025f; //Same as head drop rate, currently
 	float DRAGON_EYE_RATE = 0.1f;
 	float CREEPER_POWDER_CLUMP_RATE = 0.35f;
@@ -65,6 +66,12 @@ public final class LootPlus extends JavaPlugin implements Listener{
 		new CustomDungeonLootInterface(this);
 		new DungeonChestPopulator(this);
 		getServer().getPluginManager().registerEvents(this, this);
+		if (config.getBoolean("Options.playersAlwaysDropHeads") == true){
+			PLAYER_HEAD_DROP_RATE = 1f;
+		}
+		if (config.getBoolean("Options.mobsAlwaysDropHeads") == true){
+			HEAD_DROP_RATE = 1f;
+		}
 		getLogger().info("Loot on this server is now enhanced by LootPlus V"+CURRENT_VERSION+"!");
 	}
 	public FileConfiguration getDefaultConfig(){
@@ -82,6 +89,8 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			config.addDefault("Options.allowCustomXP", false);
 			config.addDefault("Options.allowCustomDungeonLoot", false);
 			//config.addDefault("Options.allowCustomSpawnRate", "TODO");//FIXME
+			config.addDefault("Options.playersAlwaysDropHeads", false);
+			config.addDefault("Options.mobsAlwaysDropHeads", false);
 			config.addDefault("Options.updates", true);
 			config.addDefault("Options.autoUpdate", true);
 			config.addDefault("Options.setToDefault", false);
@@ -105,6 +114,8 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			config.set("Options.allowCustomXP", false);
 			config.set("Options.allowCustomDungeonLoot", false);
 			//config.set("Options.allowCustomSpawnRate", "TODO");//FIXME
+			config.set("Options.playersAlwaysDropHeads", false);
+			config.set("Options.mobsAlwaysDropHeads", false);
 			config.set("Options.updates", true);
 			config.set("Options.autoUpdate", true);
 			config.set("Options.setToDefault", false);
@@ -163,7 +174,11 @@ public final class LootPlus extends JavaPlugin implements Listener{
 				sender.sendMessage(ChatColor.GREEN+"+All mob heads have a chance at being dropped");
 			}
 			if (config.getBoolean("Features.playerHeadDrops") == true){
-				sender.sendMessage(ChatColor.GREEN+"+Players drop heads");
+				if (config.getBoolean("Options.playersAlwaysDropHeads") == true){
+					sender.sendMessage(ChatColor.GREEN+"+Players will always drop a head");
+				}else{
+					sender.sendMessage(ChatColor.GREEN+"+Players have a chance of dropping heads");
+				}
 			}
 			if (config.getBoolean("Features.extraHeadDrops") == true){
 				sender.sendMessage(ChatColor.GREEN+"+Mobs without implemented heads drop custom player heads");
@@ -866,7 +881,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 		if (config.getBoolean("Features.playerHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
 			Random r = new Random();
 			float chance = r.nextFloat();
-			if (chance <= HEAD_DROP_RATE){
+			if (chance <= PLAYER_HEAD_DROP_RATE){
 				Player player = event.getEntity();
 				Location loc = player.getLocation();
 				ItemStack skull = new ItemStack(Material.SKULL_ITEM);
