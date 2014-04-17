@@ -147,7 +147,7 @@ public final class DungeonChestPopulator implements Listener{
 		ItemStack item;
 		if (level == "Legendary"){//Dark Red
 			double itemKind = Math.random();
-			if (itemKind <= 0.02){//2% for fishing rod
+			if (itemKind <= 0.10){//10% for fishing rod
 				item = new ItemStack(Material.FISHING_ROD);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -177,7 +177,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
-			}else if (itemKind <= 0.12){//10% for shovel
+			}else if (itemKind <= 0.20){//10% for shovel
 				item = new ItemStack(Material.GOLD_SPADE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -207,7 +207,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
-			}else if (itemKind <= 0.22){//10% for axe
+			}else if (itemKind <= 0.30){//10% for axe
 				item = new ItemStack(Material.GOLD_AXE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -237,7 +237,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
-			}else if (itemKind <= 0.37){//15% for pick
+			}else if (itemKind <= 0.45){//15% for pick
 				item = new ItemStack(Material.GOLD_PICKAXE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -267,7 +267,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
-			}else if (itemKind <= 0.54){//17% for Sword
+			}else if (itemKind <= 0.62){//17% for Sword
 				item = new ItemStack(Material.GOLD_SWORD);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -295,7 +295,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 4);
 				}
 				return item;
-			}else if (itemKind <= 0.65){//11% for boots
+			}else if (itemKind <= 0.73){//11% for boots
 				item = new ItemStack(Material.GOLD_BOOTS);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -325,7 +325,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 5);
 				}
 				return item;
-			}else if (itemKind <= 0.72){//7% for pants
+			}else if (itemKind <= 0.80){//7% for pants
 				item = new ItemStack(Material.GOLD_LEGGINGS);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -351,7 +351,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant, 6);
 				}
 				return item;
-			}else if (itemKind <= 0.83){//11% for chestplate
+			}else if (itemKind <= 0.91){//11% for chestplate
 				item = new ItemStack(Material.GOLD_CHESTPLATE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -381,7 +381,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 4);
 				}
 				return item;
-			}else if (itemKind <= 0.9){//7% for Helmet
+			}else if (itemKind <= 0.98){//7% for Helmet
 				item = new ItemStack(Material.GOLD_HELMET);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -415,7 +415,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
-			}else if (itemKind <= 1){//10% for battlesign
+			}else if (itemKind <= 1){//2% for battlesign
 				item = new ItemStack(Material.SIGN);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.DARK_RED+"Legendary");
@@ -443,7 +443,7 @@ public final class DungeonChestPopulator implements Listener{
 			}
 		}else if (level == "Rare"){//red
 			double itemKind = Math.random();
-			if (itemKind <= 0.02){//2% for fishing rod
+			if (itemKind <= 0.10){//10% for fishing rod
 				item = new ItemStack(Material.FISHING_ROD);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -473,7 +473,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 3);
 				}
 				return item;
-			}else if (itemKind <= 0.12){//10% for shovel
+			}else if (itemKind <= 0.20){//10% for shovel
 				item = new ItemStack(Material.DIAMOND_SPADE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -503,7 +503,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.22){//10% for axe
+			}else if (itemKind <= 0.30){//10% for axe
 				item = new ItemStack(Material.DIAMOND_AXE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -533,7 +533,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.37){//15% for pick
+			}else if (itemKind <= 0.45){//15% for pick
 				item = new ItemStack(Material.DIAMOND_PICKAXE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -563,7 +563,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.54){//17% for Sword
+			}else if (itemKind <= 0.62){//17% for Sword
 				item = new ItemStack(Material.DIAMOND_SWORD);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -591,7 +591,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 3);
 				}
 				return item;
-			}else if (itemKind <= 0.65){//11% for boots
+			}else if (itemKind <= 0.73){//11% for boots
 				item = new ItemStack(Material.DIAMOND_BOOTS);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -621,7 +621,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 4);
 				}
 				return item;
-			}else if (itemKind <= 0.72){//7% for pants
+			}else if (itemKind <= 0.80){//7% for pants
 				item = new ItemStack(Material.DIAMOND_LEGGINGS);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -647,7 +647,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant, 4);
 				}
 				return item;
-			}else if (itemKind <= 0.83){//11% for chestplate
+			}else if (itemKind <= 0.91){//11% for chestplate
 				item = new ItemStack(Material.DIAMOND_CHESTPLATE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -677,7 +677,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 3);
 				}
 				return item;
-			}else if (itemKind <= 0.9){//7% for Helmet
+			}else if (itemKind <= 0.98){//7% for Helmet
 				item = new ItemStack(Material.DIAMOND_HELMET);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -711,7 +711,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 2);
 				}
 				return item;
-			}else if (itemKind <= 1){//10% for battlesign
+			}else if (itemKind <= 1){//2% for battlesign
 				item = new ItemStack(Material.SIGN);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.RED+"Rare");
@@ -739,7 +739,7 @@ public final class DungeonChestPopulator implements Listener{
 			}
 		}else if (level == "Common"){//White
 			double itemKind = Math.random();
-			if (itemKind <= 0.02){//2% for fishing rod
+			if (itemKind <= 0.10){//10% for fishing rod
 				item = new ItemStack(Material.FISHING_ROD);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -767,7 +767,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.12){//10% for shovel
+			}else if (itemKind <= 0.20){//10% for shovel
 				item = new ItemStack(Material.IRON_SPADE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -795,7 +795,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.22){//10% for axe
+			}else if (itemKind <= 0.30){//10% for axe
 				item = new ItemStack(Material.IRON_AXE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -823,7 +823,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.37){//15% for pick
+			}else if (itemKind <= 0.45){//15% for pick
 				item = new ItemStack(Material.IRON_PICKAXE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -851,7 +851,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.54){//17% for Sword
+			}else if (itemKind <= 0.62){//17% for Sword
 				item = new ItemStack(Material.IRON_SWORD);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -879,7 +879,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.65){//11% for boots
+			}else if (itemKind <= 0.73){//11% for boots
 				item = new ItemStack(Material.CHAINMAIL_BOOTS);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -909,7 +909,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.72){//7% for pants
+			}else if (itemKind <= 0.80){//7% for pants
 				item = new ItemStack(Material.CHAINMAIL_LEGGINGS);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -935,7 +935,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant, 3);
 				}
 				return item;
-			}else if (itemKind <= 0.83){//11% for chestplate
+			}else if (itemKind <= 0.91){//11% for chestplate
 				item = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -965,7 +965,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 2);
 				}
 				return item;
-			}else if (itemKind <= 0.9){//7% for Helmet
+			}else if (itemKind <= 0.98){//7% for Helmet
 				item = new ItemStack(Material.CHAINMAIL_HELMET);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -999,7 +999,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 1);
 				}
 				return item;
-			}else if (itemKind <= 1){//10% for battlesign
+			}else if (itemKind <= 1){//2% for battlesign
 				item = new ItemStack(Material.SIGN);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.WHITE+"Common");
@@ -1025,7 +1025,7 @@ public final class DungeonChestPopulator implements Listener{
 			}
 		}else if (level == "Poor"){//Grey
 			double itemKind = Math.random();
-			if (itemKind <= 0.02){//2% for fishing rod
+			if (itemKind <= 0.10){//10% for fishing rod
 				item = new ItemStack(Material.FISHING_ROD);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
@@ -1037,7 +1037,7 @@ public final class DungeonChestPopulator implements Listener{
 				Enchantment newEnchant2 = new EnchantmentWrapper(34);
 				item.addUnsafeEnchantment(newEnchant2, 1);
 				return item;
-			}else if (itemKind <= 0.12){//10% for shovel
+			}else if (itemKind <= 0.20){//10% for shovel
 				item = new ItemStack(Material.STONE_SPADE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
@@ -1056,7 +1056,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant, 1);
 				}
 				return item;
-			}else if (itemKind <= 0.22){//10% for axe
+			}else if (itemKind <= 0.30){//10% for axe
 				item = new ItemStack(Material.STONE_AXE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
@@ -1075,7 +1075,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant, 1);
 				}
 				return item;
-			}else if (itemKind <= 0.37){//15% for pick
+			}else if (itemKind <= 0.45){//15% for pick
 				item = new ItemStack(Material.STONE_PICKAXE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
@@ -1094,7 +1094,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant, 1);
 				}
 				return item;
-			}else if (itemKind <= 0.54){//17% for Sword
+			}else if (itemKind <= 0.62){//17% for Sword
 				item = new ItemStack(Material.STONE_SWORD);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
@@ -1120,7 +1120,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 1);
 				}
 				return item;
-			}else if (itemKind <= 0.65){//11% for boots
+			}else if (itemKind <= 0.73){//11% for boots
 				item = new ItemStack(Material.LEATHER_BOOTS);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
@@ -1150,7 +1150,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 1);
 				}
 				return item;
-			}else if (itemKind <= 0.72){//7% for pants
+			}else if (itemKind <= 0.80){//7% for pants
 				item = new ItemStack(Material.LEATHER_LEGGINGS);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
@@ -1176,7 +1176,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant, 1);
 				}
 				return item;
-			}else if (itemKind <= 0.83){//11% for chestplate
+			}else if (itemKind <= 0.91){//11% for chestplate
 				item = new ItemStack(Material.LEATHER_CHESTPLATE);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
@@ -1206,7 +1206,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant2, 1);
 				}
 				return item;
-			}else if (itemKind <= 0.9){//7% for Helmet
+			}else if (itemKind <= 0.98){//7% for Helmet
 				item = new ItemStack(Material.LEATHER_HELMET);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
@@ -1240,7 +1240,7 @@ public final class DungeonChestPopulator implements Listener{
 					item.addUnsafeEnchantment(newEnchant3, 1);
 				}
 				return item;
-			}else if (itemKind <= 1){//10% for battlesign
+			}else if (itemKind <= 1){//2% for battlesign
 				item = new ItemStack(Material.SIGN);
 				List<String> lores = new ArrayList<String>();
 				lores.add("Item Value: "+ChatColor.GRAY+"Poor");
