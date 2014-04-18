@@ -18,16 +18,16 @@ Current Features
 
 * Additional dungeon loot
 
+* Custom mob drops
+
+* Custom mob xp drops
+
+* Custom dungeon loot
+
 * Update Notifications and auto-updating
 
 Planned Features
 ----------------
-
-+Custom mob drops (+probability)
-
-+Custom mob xp drops
-
-+Custom dungeon loot (+probability)
 
 +Additional 'enchantments' (ex. like vorpal/beheading to get heads easier)
 
