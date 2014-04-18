@@ -46,3 +46,5 @@ Planned Features
 +Expanding the tiered-loot system
 
 +A more user-friendly config
+
++Localization
