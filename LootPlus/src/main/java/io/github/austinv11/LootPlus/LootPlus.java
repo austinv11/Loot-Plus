@@ -1,6 +1,7 @@
 package io.github.austinv11.LootPlus;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -32,7 +33,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LootPlus extends JavaPlugin implements Listener{
-	public String CURRENT_VERSION = "1.2.0"; //TODO remember to update
+	public String CURRENT_VERSION = "1.2.1"; //TODO remember to update
 	public String CURRENT_GAME_VERSION = "CB 1.7.2-R0.3"; //TODO remember to update
 	int id = 77925;
 	FileConfiguration config = getConfig();
@@ -79,6 +80,14 @@ public final class LootPlus extends JavaPlugin implements Listener{
 		if (config.getBoolean("Options.mobsAlwaysDropHeads") == true){
 			HEAD_DROP_RATE = 1f;
 		}
+		if (config.getBoolean("Options.mcstatsDataCollection") == true){
+			try {
+			    MetricsLite metrics = new MetricsLite(this);
+			    metrics.start();
+			} catch (IOException e) {
+			    getLogger().severe("Failed to connect to mcstats.org");
+			}
+		}
 		getLogger().info("Loot on this server is now enhanced by LootPlus V"+CURRENT_VERSION+"!");
 	}
 	public FileConfiguration getDefaultConfig(){
@@ -98,6 +107,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			//config.addDefault("Options.allowCustomSpawnRate", "TODO");//FIXME
 			config.addDefault("Options.playersAlwaysDropHeads", false);
 			config.addDefault("Options.mobsAlwaysDropHeads", false);
+			config.addDefault("Options.mcstatsDataCollection", true);
 			config.addDefault("Options.updates", true);
 			config.addDefault("Options.autoUpdate", true);
 			config.addDefault("Options.setToDefault", false);
@@ -123,6 +133,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			//config.set("Options.allowCustomSpawnRate", "TODO");//FIXME
 			config.set("Options.playersAlwaysDropHeads", false);
 			config.set("Options.mobsAlwaysDropHeads", false);
+			config.set("Options.mcstatsDataCollection", true);
 			config.set("Options.updates", true);
 			config.set("Options.autoUpdate", true);
 			config.set("Options.setToDefault", false);
