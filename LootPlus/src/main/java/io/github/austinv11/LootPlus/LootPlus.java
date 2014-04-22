@@ -36,7 +36,8 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	public String CURRENT_VERSION = "1.2.1"; //TODO remember to update
 	public String CURRENT_GAME_VERSION = "CB 1.7.2-R0.3"; //TODO remember to update
 	int id = 77925;
-	FileConfiguration config = getConfig();
+	File configFile = new File(getDataFolder(), "config.yml");
+	FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 /*	File mobData = new File(getDataFolder(), "CustomLoot//mobLoot.yml"); FIXME
 	FileConfiguration mobDatas = YamlConfiguration.loadConfiguration(mobData);
 	File dungeonData = new File(getDataFolder(), "CustomLoot//dungeonLoot.yml");
@@ -121,7 +122,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			config.addDefault("Features.easterEggs", true);
 			//config.addDefault("Features.bossMobs", "TODO");//FIXME
 			config.options().copyDefaults(true);
-			saveConfig();
+			save();
 			getLogger().info("Initiated config!");
 		} else if (override == true){
 			getLogger().info("Reverting config to defaults...");
@@ -146,8 +147,15 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			//config.set("Features.extraDungeons", "TODO");//FIXME
 			config.set("Features.easterEggs", true);
 			//config.set("Features.bossMobs", "TODO");//FIXME
-			saveConfig();
+			save();
 			getLogger().info("Reverted config!");
+		}
+	}
+	private void save(){
+		try{
+			config.save(configFile);
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 	@Override
