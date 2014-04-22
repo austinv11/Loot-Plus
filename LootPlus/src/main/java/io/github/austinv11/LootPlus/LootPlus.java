@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.gravitydevelopment.updater.Updater;
+//import net.gravitydevelopment.updater.Updater;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,8 +36,6 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	public String CURRENT_VERSION = "1.2.1"; //TODO remember to update
 	public String CURRENT_GAME_VERSION = "CB 1.7.2-R0.3"; //TODO remember to update
 	int id = 77925;
-	File configFile = new File(getDataFolder(), "config.yml");
-	FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 /*	File mobData = new File(getDataFolder(), "CustomLoot//mobLoot.yml"); FIXME
 	FileConfiguration mobDatas = YamlConfiguration.loadConfiguration(mobData);
 	File dungeonData = new File(getDataFolder(), "CustomLoot//dungeonLoot.yml");
@@ -60,17 +58,18 @@ public final class LootPlus extends JavaPlugin implements Listener{
 		//Big thanks to Gravity for his autoupdater! 
 		//http://forums.bukkit.org/threads/updater-2-1-easy-safe-and-policy-compliant-auto-updating-for-your-plugins-new.96681/
 		configInit(false);
+		FileConfiguration config = getConfig();
 		if (config.getBoolean("Options.setToDefault") == true){
 			configInit(true);
 		}
-		if (config.getBoolean("Options.updates") == true){
+		/*if (config.getBoolean("Options.updates") == true){
 			Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
 			if (updater.getLatestGameVersion() == CURRENT_GAME_VERSION && config.getBoolean("Options.autoUpdate") == true){
 				Updater updaterAuto = new Updater(this, id, this.getFile(), Updater.UpdateType.DEFAULT, true);
 			}else if (updater.getLatestGameVersion() == CURRENT_GAME_VERSION && updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE){
 				getLogger().info("An update is available for LootPlus, for Bukkit version" +updater.getLatestGameVersion()+ " available at " + updater.getLatestFileLink());
 			}
-		}
+		}*/
 		new CustomMobDropInterface(this);
 		new CustomDungeonLootInterface(this);
 		new DungeonChestPopulator(this);
@@ -98,6 +97,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 		getLogger().info(message);
 	}
 	public void configInit(boolean override){
+		FileConfiguration config = getConfig();
 		if (override == false){
 			getLogger().info("Initiating config...");
 			config.addDefault("Options.onlyCustomDrops", false);
@@ -109,8 +109,8 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			config.addDefault("Options.playersAlwaysDropHeads", false);
 			config.addDefault("Options.mobsAlwaysDropHeads", false);
 			config.addDefault("Options.mcstatsDataCollection", true);
-			config.addDefault("Options.updates", true);
-			config.addDefault("Options.autoUpdate", true);
+			//config.addDefault("Options.updates", true);
+			//config.addDefault("Options.autoUpdate", true);
 			config.addDefault("Options.setToDefault", false);
 			config.addDefault("Features.headDrops", true);
 			config.addDefault("Features.playerHeadDrops", true);
@@ -122,7 +122,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			config.addDefault("Features.easterEggs", true);
 			//config.addDefault("Features.bossMobs", "TODO");//FIXME
 			config.options().copyDefaults(true);
-			save();
+			saveConfig();
 			getLogger().info("Initiated config!");
 		} else if (override == true){
 			getLogger().info("Reverting config to defaults...");
@@ -135,8 +135,8 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			config.set("Options.playersAlwaysDropHeads", false);
 			config.set("Options.mobsAlwaysDropHeads", false);
 			config.set("Options.mcstatsDataCollection", true);
-			config.set("Options.updates", true);
-			config.set("Options.autoUpdate", true);
+			//config.set("Options.updates", true);
+			//config.set("Options.autoUpdate", true);
 			config.set("Options.setToDefault", false);
 			config.set("Features.headDrops", true);
 			config.set("Features.playerHeadDrops", true);
@@ -147,15 +147,8 @@ public final class LootPlus extends JavaPlugin implements Listener{
 			//config.set("Features.extraDungeons", "TODO");//FIXME
 			config.set("Features.easterEggs", true);
 			//config.set("Features.bossMobs", "TODO");//FIXME
-			save();
+			saveConfig();
 			getLogger().info("Reverted config!");
-		}
-	}
-	private void save(){
-		try{
-			config.save(configFile);
-		}catch(Exception e){
-			e.printStackTrace();
 		}
 	}
 	@Override
@@ -165,6 +158,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	}
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerJoin(PlayerJoinEvent event){
+		/*FileConfiguration config = getConfig();
 		Player player = event.getPlayer();
 		if (config.getBoolean("Options.updates") == true){
 			Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
@@ -172,10 +166,11 @@ public final class LootPlus extends JavaPlugin implements Listener{
 				player.sendMessage("An update has been found for "+ChatColor.YELLOW+"LootPlus"+ChatColor.WHITE+"!");
 				player.sendMessage("Type /lpupdate to update the plugin!");
 			}
-		}
+		}*/
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){//TODO remember to update
+		FileConfiguration config = getConfig();
 		if (cmd.getName().equalsIgnoreCase("tweaks")) {
 			sender.sendMessage(ChatColor.YELLOW+"Current tweaks implemented by LootPlus on this server:");
 			if (config.getBoolean("Options.onlyCustomDrops") == true){
@@ -231,8 +226,8 @@ public final class LootPlus extends JavaPlugin implements Listener{
 		}else if (cmd.getName().equalsIgnoreCase("lpupdate")){
 			if (config.getBoolean("Options.updates") == true){
 				sender.sendMessage("Forcefully updating the LootPlus plugin");
-				Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
-				sender.sendMessage("Done!");
+				//Updater updater = new Updater(this, id, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
+				sender.sendMessage("Sorry, this is not supported on this version");
 			}else{
 				sender.sendMessage("Sorry, updates has been disabled via the config");
 			}
@@ -294,6 +289,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	}
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onEntityDeath(EntityDeathEvent event){//FIXME mob head names
+		FileConfiguration config = getConfig();
 		if (config.getBoolean("Options.onlyCustomDrops") == true){
 			Location items = event.getEntity().getLocation().clone();
 			for(Entity e : items.getChunk().getEntities()){
@@ -955,6 +951,7 @@ public final class LootPlus extends JavaPlugin implements Listener{
 	}
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerDeath(PlayerDeathEvent event) {
+		FileConfiguration config = getConfig();
 		DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 		if (config.getBoolean("Features.playerHeadDrops") == true && cause == DamageCause.ENTITY_ATTACK){
 			Random r = new Random();
